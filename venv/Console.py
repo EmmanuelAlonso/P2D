@@ -46,6 +46,22 @@ class Node:
     def getValue(self):
         return self.value
 
+class Object(pygame.sprite.Sprite):
+    def __init__(self, xPos, yPos, Type, image):
+
+        #Spawn point (x,y)
+        self.rect.centerx = xPos
+        self.rect.bottom = yPos
+
+        #Type declaration
+        self.type = Type
+
+        #Image insertion
+        self.image = image
+
+        #Behaviors
+
+
 
 def fill_levels(node,argumentos_del_level):
     return node
