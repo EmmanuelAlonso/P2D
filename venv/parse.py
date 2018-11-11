@@ -27,8 +27,9 @@ def t_OBJECT(t):
     return t
 
 def t_Behavior(t):
-    r'\W*(Behavior)'
+    r'Behavior'
     t.type = 'Behavior'
+    t.value = 'Behavior'
     return t
 
 def t_Frame(t):
@@ -37,8 +38,9 @@ def t_Frame(t):
     return t
 
 def t_Type(t):
-    r'\W*(Type)'
+    r'Type'
     t.type = 'Type'
+    t.value = 'Type'
     return t
 
 def t_Icon(t):
