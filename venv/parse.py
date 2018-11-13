@@ -52,13 +52,20 @@ def p_main_expression(p):
     '''
     P2D : typelist
     '''
+    print("List containing all objects. Each object has (type, list of arguments, list of objects created below if any). List of objects is recursive")
+    print(p[1])
+    #p[1] contains all the info necessary to build the game
+
 
 def p_typelist(p):
     '''
     typelist : typedeclar typelist
             | typedeclar
     '''
-    #Logic probably goes here to probably add objects to the frame or level or any other entity
+    try:
+        p[0] = [p[1]]+p[2]
+    except:
+        p[0] = [p[1]]
 
 def p_typedeclar(p):
     '''
@@ -67,8 +74,10 @@ def p_typedeclar(p):
                 | TYPENAME LPAREN listattr RPAREN DOUBLEPOINT typelist DELIMITER
                 | TYPENAME LPAREN listattr RPAREN
     '''
-    #Logic probably goes here to create the objects
-    print(p[1],p[3])
+    try:
+        p[0] = (p[1], p[3], p[6])
+    except:
+        p[0] = (p[1], p[3])
 
 def p_list_attr(p):
     '''
@@ -173,7 +182,7 @@ parser = yacc.yacc(debug=1)
 s = '''
 Frame(800, 800): 
     Level():
-        Object(1,2,4,5,6,   Benign) 
+        Object(1,2,4,5,6, hola) 
         Player(1,2,3)
     end
 end
