@@ -9,6 +9,26 @@ FPS = 60
 BLUE = (60, 60, 120)
 GREEN = (0, 255, 0)
 
+size = 0
+
+#crea un single linked list
+class Node:
+
+    def __init__(self,value,next):
+        self.value = value
+        self.next = next
+
+    def set_next(self, next):
+        self.next = next
+
+    def get_next(self):
+        return self.next
+
+    def set_value(self, value):
+        self.value = value
+
+    def get_value(self):
+        return self.value
 
 
 #para modificar el tamano del frame
@@ -18,58 +38,39 @@ class Frame:
         screen = pygame.display.set_mode((width, height))
         return screen
 
+
+current = level_list = Node("def","def")
+
 #class for storange levels
 class Level:
-    def __init__(self,name="Default",argumentos="argumentos"):
+    head =Node("def", "def")
+    size = 0
+    def __init__(self,name="Default",argumentos=["1","2","3"]):
         self.name=name
+        self.head = Node(argumentos, self.head)
+        current = self.head
+        for eachValue in argumentos :
+            self.size = self.size + 1
+            holder = current
+            current = Node(eachValue, self.head)
+            holder.set_next(current)
         self.argumentos=argumentos
     def getName(self):
         return self.name
+    def get_head(self):
+        return self.head
 
-
-
-#crea un single linked list
-class Node:
-    def __init__(self,value,next):
-        self.value = value
-        self.next = next
-
-    def setNext(self, next):
-        self.next = next
-
-    def getNext(self):
-        return self.next
-
-    def setValue(self, value):
-        self.value = value
-
-    def getValue(self):
-        return self.value
-
-class Object(pygame.sprite.Sprite):
-    def __init__(self, xPos, yPos, Type, image):
-
-        #Spawn point (x,y)
-        self.rect.centerx = xPos
-        self.rect.bottom = yPos
-
-        #Type declaration
-        self.type = Type
-
-        #Image insertion
-        self.image = image
-
-        #Behaviors
-
-
-
-def fill_levels(node,argumentos_del_level):
+def fill_levels(node,argumentos_del_leve=[[":O "],[":c"],[":)"]]):
+    current = node
+    for argumentos in argumentos_del_leve:
+        holder = current
+        current = Node(Level(argumentos.append(" level "), argumentos), current)
+        holder.set_next(current)
     return node
 #inicio del juego
+print(size)
 
-
-level_list = Node(Level("level1","argumentos"),"2")
-fill_levels(level_list,"argumentos")
+current = level_list = fill_levels(level_list,[["A","a"],["B","b"], ["C","c"]])
 
 pygame.init()
 pygame.mixer.init()
@@ -79,10 +80,14 @@ clock = pygame.time.Clock()
 #funciones para modificar el display de los levels
 
 #dibuja el level
-def draw_level(level_list):
+def draw_level(level_list,current,size):
     print(" draw")
-    name = level_list.getValue().getName()
-    print(name)
+    current = current.get_next()
+    for x in range(0,size):
+        name = current.get_value().get_head().get_value()
+        print(name)
+        current = current.get_next()
+    current = level_list
 
 #moverse entre los levels
 def update_level(level_list):
@@ -113,7 +118,7 @@ while running:
             running = False
     screen.fill(BLUE)
     update("current level")
-    draw_level(level_list)
+    draw_level(level_list,current,3)
     pygame.display.flip()
 
 pygame.quit()

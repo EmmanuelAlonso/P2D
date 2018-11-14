@@ -17,7 +17,7 @@ class Behaviour:
     def get_speed(self):
         return self.speed
 
-    def get_repeat(self):   
+    def get_repeat(self):
         return self.repeat
 
     def get_reflect(self):
