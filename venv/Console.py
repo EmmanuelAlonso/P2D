@@ -45,11 +45,14 @@ current = level_list = Node("def","def")
 class Level:
     head =Node("def", "def")
     size = 0
-    def __init__(self,name="Default",argumentos=["1","2","3"]):
+    def __init__(self,name="Default",argumentos=[]):
         self.name=name
         self.head = Node(argumentos, self.head)
         current = self.head
+        #print(len(argumentos))
         for eachValue in argumentos :
+            #for value in eachValue:
+                #print(value)
             self.size = self.size + 1
             holder = current
             current = Node(eachValue, self.head)
@@ -60,17 +63,17 @@ class Level:
     def get_head(self):
         return self.head
 
-def fill_levels(node,argumentos_del_leve=[[":O "],[":c"],[":)"]]):
+def fill_levels(node,argumentos_del_leve):
     current = node
-    for argumentos in argumentos_del_leve:
+    #print(len(argumentos_del_leve))
+    for index in range(len(argumentos_del_leve)):
         holder = current
-        current = Node(Level(argumentos.append(" level "), argumentos), current)
+        current = Node(Level((" level "+str(index)), argumentos_del_leve[index]), current)
         holder.set_next(current)
     return node
 #inicio del juego
-print(size)
 
-current = level_list = fill_levels(level_list,[["A","a"],["B","b"], ["C","c"]])
+current = level_list = fill_levels(level_list,[["player",1,2,3,"false","algo.img", "Behaviour(1,1,30,false,false,true"],["object",1,2,4,"false","block.img", "Behaviour(0,0,0,false,false,false)"], ["object",1,2,6,"false","block.img", "Behaviour(0,0,0,false,false,false)"]])
 
 pygame.init()
 pygame.mixer.init()
