@@ -83,54 +83,59 @@ def fill_levels(node,argumentos_del_leve):
 
 current = level_list = fill_levels(level_list,[["player",1,2,3,"false","algo.img", "Behaviour(1,1,30,false,false,true"],["object",1,2,4,"false","block.img", "Behaviour(0,0,0,false,false,false)"], ["object",1,2,6,"false","block.img", "Behaviour(0,0,0,false,false,false)"]])
 
-pygame.init()
-pygame.mixer.init()
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Moving Test")
-clock = pygame.time.Clock()
+class Console:
+
+    def __init__(self):
+        pass
+
+    def run(self):
+        pygame.init()
+        pygame.mixer.init()
+        screen = pygame.display.set_mode((WIDTH, HEIGHT))
+        pygame.display.set_caption("Moving Test")
+        clock = pygame.time.Clock()
+
+        running = True
+        while running:
+            clock.tick(FPS)
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+            screen.fill(BLUE)
+            update("current level")
+            draw_level(level_list, current, 3)
+            pygame.display.flip()
+
+        pygame.quit()
 #funciones para modificar el display de los levels
 
 #dibuja el level
-def draw_level(level_list,current,size):
-    print(" draw")
-    current = current.get_next()
-    for x in range(0,size):
-        name = current.get_value().get_head().get_value()
-        print(name)
+    def draw_level(level_list,current,size):
+        print(" draw")
         current = current.get_next()
-    current = level_list
+        for x in range(0,size):
+            name = current.get_value().get_head().get_value()
+            print(name)
+            current = current.get_next()
+        current = level_list
 
-#moverse entre los levels
-def update_level(level_list):
-    pass
+    #moverse entre los levels
+    def update_level(level_list):
+        pass
 
-def update(level):
-    print(level)
-    update_structures()
-    update_player()
-    update_Mobs()
-
-
-def update_structures():
-    print(" structure")
-
-def update_player():
-    print(" player")
-
-def update_Mobs():
-    print(" Mobs")
+    def update(level):
+        print(level)
+        update_structures()
+        update_player()
+        update_Mobs()
 
 
-running = True
-while running:
-    clock.tick(FPS)
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-    screen.fill(BLUE)
-    update("current level")
-    draw_level(level_list,current,3)
-    pygame.display.flip()
+    def update_structures():
+        print(" structure")
 
-pygame.quit()
+    def update_player():
+        print(" player")
+
+    def update_Mobs():
+        print(" Mobs")
 
