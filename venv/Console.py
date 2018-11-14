@@ -43,25 +43,33 @@ current = level_list = Node("def","def")
 
 #class for storange levels
 class Level:
-    head =Node("def", "def")
-    size = 0
-    def __init__(self,name="Default",argumentos=[]):
-        self.name=name
-        self.head = Node(argumentos, self.head)
-        current = self.head
-        #print(len(argumentos))
-        for eachValue in argumentos :
-            #for value in eachValue:
-                #print(value)
-            self.size = self.size + 1
-            holder = current
-            current = Node(eachValue, self.head)
-            holder.set_next(current)
-        self.argumentos=argumentos
+    # head =Node("def", "def")
+    # size = 0
+    def __init__ (self, name = "Default", objects = []):
+        self.name = name
+        self.listOfObjects = objects
+    # def __init__(self,name="Default",argumentos=[]):
+        # self.name=name
+        # self.head = Node(argumentos, self.head)
+        # current = self.head
+        # #print(len(argumentos))
+        # for eachValue in argumentos :
+        #     #for value in eachValue:
+        #         #print(value)
+        #     self.size = self.size + 1
+        #     holder = current
+        #     current = Node(eachValue, self.head)
+        #     holder.set_next(current)
+        # self.argumentos=argumentos
     def getName(self):
         return self.name
-    def get_head(self):
-        return self.head
+    # def get_head(self):
+    #     return self.head
+
+    def updateObjects(self):
+        for obj in self.listOfObjects:
+            obj.update()
+        pass
 
 def fill_levels(node,argumentos_del_leve):
     current = node
