@@ -97,7 +97,7 @@ class Character(pygame.sprite.Sprite):
     def __init__(self, x, y, dynamic, image, behaviour):
         pygame.sprite.Sprite.__init__(self)
         self.properties = Object(x, y, dynamic, image, behaviour)
-        self.sprite = pygame.image.load(image)
+        self.image = pygame.image.load(image)
         self.rect = self.image.get_rect()
         self.rect.centerx = x
         self.rect.bottom = y

@@ -148,3 +148,6 @@ class Console:
     def update_level(level_list):
          pass
 
+
+console = Console()
+console.run()
