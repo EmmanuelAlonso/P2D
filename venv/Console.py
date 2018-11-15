@@ -43,7 +43,7 @@ class Frame:
 class Platform(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("platform.png")
+        self.image = pygame.image.load("venv/platform.png")
         self.rect = self.image.get_rect()
         self.rect.centerx = WIDTH / 2
         self.rect.bottom = 4*HEIGHT / 5
@@ -96,7 +96,7 @@ def fill_levels(node,argumentos_del_leve):
 
 #current = level_list = fill_levels(level_list,[["player",1,2,3,"false","algo.img", "Behaviour(1,1,30,false,false,true"],["object",1,2,4,"false","block.img", "Behaviour(0,0,0,false,false,false)"], ["object",1,2,6,"false","block.img", "Behaviour(0,0,0,false,false,false)"]])
 beehaviour = Behaviour.Behaviour(10,10,1,False,False,False)
-objeto = [Objects.Object(50,50,True,"face.png",beehaviour)]
+objeto = [Objects.Object(50,50,True,"venv/face.png",beehaviour)]
 level = Level("Test 1",objeto)
 current = Node(level,"null")
 class Console:
@@ -149,5 +149,3 @@ class Console:
          pass
 
 
-console = Console()
-console.run()
