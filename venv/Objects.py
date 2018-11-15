@@ -1,10 +1,14 @@
 class Object:
 
     def __init__(self, x, y, dynamic, image, behaviour):
+        pygame.sprite.Sprite.__init__(self)
         self.x = x
         self.y = y
+        self.speedx = 0
+        self.speedy = 0
         self.dynamic = dynamic
         self.image = image
+        self.rect = self.image.get_rect()
         self.behaviour = behaviour
 
     def get_x(self):
@@ -37,24 +41,146 @@ class Object:
     def set_behaviour(self, behaviour):
         self.behaviour = behaviour
 
+    def update(self):
+        # x movement
+        if not behaviour.xMov == 0 and behaviour.get_dynamic and not self.reflected:
+            self.rect.x += behaviour.get_speed
+            self.totalMovement += behaviour.get_speed
+            if behaviour.xMov < self.totalMovement:
+                self.rect.x -= self.totalMovement - behaviour.xMov
+                self.totalMovement = behaviour.xMov
+                if behaviour.get_reflect:
+                    self.reflected = True
+        elif not xMov == 0 and behaviour.get_dynamic and self.reflected:
+            self.rect.x -= behaviour.get_speed
+            self.totalMovement += behaviour.get_speed
+            if behaviour.xMov < self.totalMovement:
+                self.rect.x += self.totalMovement - behaviour.xMov
+                self.totalMovement = behaviour.xMov
+                if behaviour.get_reflect:
+                    self.reflected = False
+        if behaviour.get_repeat and self.totalMovement == behaviour.xMov:
+            self.totalMovement = 0
+
+            # y movement
+            if not yMov == 0 and behaviour.get_dynamic and not self.reflected:
+                self.rect.y += behaviour.get_speed
+                self.totalMovement += behaviour.get_speed
+                if behaviour.yMov < self.totalMovement:
+                    self.rect.y -= self.totalMovement - behaviour.yMov
+                    self.totalMovement = behaviour.yMov
+                    if behaviour.get_reflect:
+                        self.reflected = True
+            elif not yMov == 0 and behaviour.get_dynamic and self.reflected:
+                self.rect.y -= behaviour.get_speed
+                self.totalMovement += behaviour.get_speed
+                if behaviour.yMov < self.totalMovement:
+                    self.rect.y += self.totalMovement - behaviour.yMov
+                    self.totalMovement = behaviour.yMov
+                    if behaviour.get_reflect:
+                        self.reflected = False
+            if behaviour.get_repeat and self.totalMovement == behaviour.yMov:
+                self.totalMovement = 0
+
+
 
 class Character:
+    
     def __init__(self, x, y, dynamic, image, behaviour):
         self.properties = Object(x, y, dynamic, image, behaviour)
+        self.canJump = True
 
     def get_properties(self):
         return self.properties
 
     def set_properties(self, x, y, dynamic, image, behaviour):
         self.properties = Object(x, y, dynamic, image, behaviour)
+
+    def update(self):
+        keystate = pygame.key.get_pressed()
+        #x movement
+        if keystate[pygame.K_a] and not behaviour.xMov == 0:
+            self.properties.speedx += -1
+            if self.properties.speedx > behaviour.get_speed():
+                self.properties.speedx = behaviour.get_speed
+        if keystate[pygame.K_d] and not behaviour.xMov == 0:
+            self.properties.speedx += 1
+        if (not keystate[pygame.K_a] and not keystate[pygame.K_d]) or (keystate[pygame.K_a] and keystate[pygame.K_d]):
+            if self.properties.speedx > 0:
+                self.properties.speedx -= .7
+            if self.properties.speedx < 0:
+                self.properties.speedx += .7
+        #y movement through gravity
+        if self.canJump and not behaviour.yMov == 0 and behaviour.get_gravity:
+            self.properties.speedy = 0
+            if keystate[pygame.K_w] and self.canJump:
+                self.properties.speedy = -15
+                self.canJump = False
+            self.properties.speedy += .5
+            if self.properties.speedy > behaviour.get_speed:
+                self.properties.speedy = behaviour.get_speed
+        #y movement through w and s
+        elif not behaviour.yMov == 0:
+            if keystate[pygame.K_w]:
+                self.properties.speedy = -behaviour.get_speed
+            if keystate[pygame.K_s]:
+                self.properties.speedy = behaviour.get_speed
+
+        self.properties.rect.x += self.properties.speedx
+        self.properties.rect.y += self.properties.speedy
+            
+            
 
 
 class Mobs:
     def __init__(self, x, y, dynamic, image, behaviour):
         self.properties = Object(x, y, dynamic, image, behaviour)
+        self.totalMovement = 0;
+        self.reflected = False
 
     def get_properties(self):
         return self.properties
 
     def set_properties(self, x, y, dynamic, image, behaviour):
         self.properties = Object(x, y, dynamic, image, behaviour)
+
+    def update(self):
+        #x movement
+        if not behaviour.xMov == 0 and behaviour.get_dynamic and not self.reflected:
+            self.properties.rect.x += behaviour.get_speed
+            self.totalMovement += behaviour.get_speed
+            if behaviour.xMov < self.totalMovement:
+                self.properties.rect.x -= self.totalMovement-behaviour.xMov
+                self.totalMovement = behaviour.xMov
+                if behaviour.get_reflect:
+                    self.reflected = True
+        elif not xMov == 0 and behaviour.get_dynamic and self.reflected:
+            self.properties.rect.x -= behaviour.get_speed
+            self.totalMovement += behaviour.get_speed
+            if behaviour.xMov < self.totalMovement:
+                self.properties.rect.x += self.totalMovement - behaviour.xMov
+                self.totalMovement = behaviour.xMov
+                if behaviour.get_reflect:
+                    self.reflected = False
+        if behaviour.get_repeat and self.totalMovement == behaviour.xMov:
+            self.totalMovement = 0
+
+            # y movement
+            if not yMov == 0 and behaviour.get_dynamic and not self.reflected:
+                self.rect.y += behaviour.get_speed
+                self.totalMovement += behaviour.get_speed
+                if behaviour.yMov < self.totalMovement:
+                    self.properties.rect.y -= self.totalMovement - behaviour.yMov
+                    self.totalMovement = behaviour.yMov
+                    if behaviour.get_reflect:
+                        self.reflected = True
+            elif not yMov == 0 and behaviour.get_dynamic and self.reflected:
+                self.properties.rect.y -= behaviour.get_speed
+                self.totalMovement += behaviour.get_speed
+                if behaviour.yMov < self.totalMovement:
+                    self.properties.rect.y += self.totalMovement - behaviour.yMov
+                    self.totalMovement = behaviour.yMov
+                    if behaviour.get_reflect:
+                        self.reflected = False
+            if behaviour.get_repeat and self.totalMovement == behaviour.yMov:
+                self.totalMovement = 0
