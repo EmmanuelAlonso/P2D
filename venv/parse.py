@@ -2,6 +2,7 @@ import ply.lex as lex
 import ply.yacc as yacc
 
 
+
 tokens = ['TYPENAME', 'LPAREN', 'RPAREN', 'COMMA', 'INT', 'FLOAT', 'DELIMITER', 'ID', 'DOUBLEPOINT', 'WHITESPACE']
 
 reserved = {
@@ -9,6 +10,7 @@ reserved = {
     'Player':'TYPENAME',
     'Object':'TYPENAME',
     'Level':'TYPENAME',
+    'Behaviour' : 'TYPENAME',
     'end':'DELIMITER'
 }
 
@@ -74,7 +76,7 @@ def p_typedeclar(p):
                 | TYPENAME LPAREN listattr RPAREN DOUBLEPOINT typelist DELIMITER
                 | TYPENAME LPAREN listattr RPAREN
     '''
-    if (checkAttributes(p[1], p[3])):
+    if checkAttributes(p[1], p[3]):
         #create instance of the class of type p[1] and supply it to p[0]
         #example: Object(p[3][0], p[3][1], p[3][2], p[3][3], p[3][4])
         pass
@@ -170,7 +172,7 @@ def p_empty(p):
     '''
    empty :
     '''
-    p[0] = None
+    p[0] = list()
 
 
 def run(p):
@@ -181,10 +183,66 @@ def run(p):
             print('Frame Code!')
     else: print('No Code')
 
+def checkAttributes(type, listOfAttributes):
+    print('Checking.../n')
+    print(type + ' Found...')
+    if(type == 'Object'):
+        print('List has length ' + str(len(listOfAttributes)))
+        if(len(listOfAttributes) == 5):
+            if(listOfAttributes[0] != int):
+                return False
+            if (listOfAttributes[1] != int):
+                return False
+            if (listOfAttributes[2] != bool):
+                return False
+            if (listOfAttributes[3] != str):
+                return False
+            if (listOfAttributes[0] != str):
+                return False
+        else:
+            return False
+
+    if(type == 'Frame'):
+        #print('Frame Found...\n')
+        print('List has length ' + str(len(listOfAttributes)))
+        if(len(listOfAttributes) == 2):
+            print('Checking Frame: ' + str(listOfAttributes[0]) + ' ' + str(listOfAttributes[1]))
+            if (isinstance(listOfAttributes[0],int)) == False:
+                return False
+            if (isinstance(listOfAttributes[1],int)) == False:
+                print('False Found')
+                return False
+        else:
+            return False
+    if(type == 'Level'):
+         if (len(listOfAttributes) != 0):
+                 return False
+
+    if (type == 'Behaviour'):
+        if (len(listOfAttributes) == 6):
+            if (listOfAttributes[0] != int):
+                return False
+            if (listOfAttributes[1] != int):
+                return False
+            if isinstance(listOfAttributes[2], float) != True:
+                return False
+            if (listOfAttributes[3] != str):
+                return False
+            if (listOfAttributes[4] != str):
+                return False
+            if (listOfAttributes[5] != str):
+                return False
+            if (listOfAttributes[6] != str):
+                return False
+        else:
+            return False
+    return True
+
+
 parser = yacc.yacc(debug=1)
 
 s = '''
-Frame(800, 800): 
+Frame(800, Loony): 
     Level():
         Object(1,2,4,5,6, hola) 
         Player(1,2,3)
@@ -207,20 +265,6 @@ while True:
 #         break
 #     parser.parse(s)
 
-def checkAttributes(type, listOfAttributes):
-    if(type == 'Object'):
-        if(len(listOfAttributes) == 5):
-            if(listOfAttributes[0] != int):
-                return False
-            if (listOfAttributes[1] != int):
-                return False
-            if (listOfAttributes[2] != bool):
-                return False
-            if (listOfAttributes[3] != str):
-                return False
-            if (listOfAttributes[0] != str):
-                return False
-    return True
 
 
 
