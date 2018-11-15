@@ -1,3 +1,5 @@
+import Behaviour
+import pygame
 class Object:
 
     def __init__(self, x, y, dynamic, image, behaviour):
@@ -7,8 +9,8 @@ class Object:
         self.speedx = 0
         self.speedy = 0
         self.dynamic = dynamic
-        self.image = image
-        self.sprite = pygame.image.load(image).convert_alpha()
+        self.image_link = image
+        self.image = pygame.image.load(image)
         self.rect = self.image.get_rect()
         self.rect.centerx = x
         self.rect.bottom = y
@@ -25,7 +27,7 @@ class Object:
         return self.dynamic
 
     def get_image(self):
-        return self.image
+        return self.image_link
 
     def get_behaviour(self):
         return self.behaviour
@@ -40,7 +42,7 @@ class Object:
         self.dynamic = dynamic
 
     def set_image(self, image):
-        self.image = image
+        self.image_link = image
 
     def set_behaviour(self, behaviour):
         self.behaviour = behaviour

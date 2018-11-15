@@ -1,5 +1,6 @@
 import pygame
-
+import Objects
+import Behaviour
 #global variables for all classes
 
 WIDTH = 800
@@ -17,6 +18,7 @@ class Node:
     def __init__(self,value,next):
         self.value = value
         self.next = next
+
 
     def set_next(self, next):
         self.next = next
@@ -41,12 +43,12 @@ class Frame:
 class Platform(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("images/platform.png").convert_alpha()
+        self.image = pygame.image.load("platform.png")
         self.rect = self.image.get_rect()
         self.rect.centerx = WIDTH / 2
         self.rect.bottom = 4*HEIGHT / 5
 
-current = level_list = Node("def","def")
+#current = level_list = Node("def","def")
 
 #class for storange levels
 class Level:
@@ -55,6 +57,7 @@ class Level:
     def __init__ (self, name = "Default", objects = []):
         self.name = name
         self.listOfObjects = objects
+
     # def __init__(self,name="Default",argumentos=[]):
         # self.name=name
         # self.head = Node(argumentos, self.head)
@@ -72,11 +75,14 @@ class Level:
         return self.name
     # def get_head(self):
     #     return self.head
-
+    def get_objects(self):
+        return self.listOfObjects
+    def get_size(self):
+        return len(self.listOfObjects)
     def updateObjects(self):
         for obj in self.listOfObjects:
             obj.update()
-        pass
+
 
 def fill_levels(node,argumentos_del_leve):
     current = node
@@ -89,12 +95,20 @@ def fill_levels(node,argumentos_del_leve):
 #inicio del juego
 
 #current = level_list = fill_levels(level_list,[["player",1,2,3,"false","algo.img", "Behaviour(1,1,30,false,false,true"],["object",1,2,4,"false","block.img", "Behaviour(0,0,0,false,false,false)"], ["object",1,2,6,"false","block.img", "Behaviour(0,0,0,false,false,false)"]])
-
+beehaviour = Behaviour.Behaviour(0,0,0,False,False,False)
+objeto = [Objects.Object(50,50,False,"face.png",beehaviour)]
+level = Level("Test 1",objeto)
+current = Node(level,"null")
 class Console:
 
     def __init__(self):
         pass
 
+    def add_sprites(self,current, all_sprites):
+        print("adding sprites to group")
+        print(current.get_value().get_objects()[0].get_image())
+        for index in range(len(current.get_value().get_objects())):
+            all_sprites.add(current.get_value().get_objects()[index])
 
     def run(self):
         pygame.init()
@@ -108,7 +122,7 @@ class Console:
         platform = Platform()
 
         all_sprites.add(platform)
-        all_sprites = add_sprites(current, all_sprites)
+        self.add_sprites(current, all_sprites)
         plats.add(platform)
 
         running = True
@@ -120,22 +134,17 @@ class Console:
 
             all_sprites.update()
             screen.fill(BLUE)
-            all_sprites.draw(screen)
+            all_sprites.draw(current, screen)
             pygame.display.flip()
 
         pygame.quit()
         #funciones para modificar el display de los levels
 
         #dibuja el level
-        def add_sprites(current,all_sprites):
-            print("adding sprites to group")
 
-            for index in range(len(current.get_value.listOfObjects)):
-                all_sprites.add(current.get_value.listOfObjects[index])
 
-            return all_sprites
 
-        #moverse entre los levels
-        def update_level(level_list):
-            pass
+    #moverse entre los levels
+    def update_level(level_list):
+         pass
 
