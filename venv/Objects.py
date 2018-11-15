@@ -8,6 +8,10 @@ class Object:
         self.speedy = 0
         self.dynamic = dynamic
         self.image = image
+        self.sprite = pygame.image.load(image).convert_alpha()
+        self.rect = self.image.get_rect()
+        self.rect.centerx = x
+        self.rect.bottom = y
         self.rect = self.image.get_rect()
         self.behaviour = behaviour
 
@@ -87,8 +91,15 @@ class Object:
 class Character:
     
     def __init__(self, x, y, dynamic, image, behaviour):
+        pygame.sprite.Sprite.__init__(self)
         self.properties = Object(x, y, dynamic, image, behaviour)
+        self.sprite = pygame.image.load(image).convert_alpha()
+        self.rect = self.image.get_rect()
+        self.rect.centerx = x
+        self.rect.bottom = y
+        self.rect = self.image.get_rect()
         self.canJump = True
+
 
     def get_properties(self):
         return self.properties
@@ -134,7 +145,12 @@ class Character:
 
 class Mobs:
     def __init__(self, x, y, dynamic, image, behaviour):
+        pygame.sprite.Sprite.__init__(self)
         self.properties = Object(x, y, dynamic, image, behaviour)
+        self.image = pygame.image.load(image).convert_alpha()
+        self.rect = self.image.get_rect()
+        self.rect.centerx = x
+        self.rect.bottom = y
         self.totalMovement = 0;
         self.reflected = False
 

@@ -38,6 +38,13 @@ class Frame:
         screen = pygame.display.set_mode((width, height))
         return screen
 
+class Platform(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load("images/platform.png").convert_alpha()
+        self.rect = self.image.get_rect()
+        self.rect.centerx = WIDTH / 2
+        self.rect.bottom = 4*HEIGHT / 5
 
 current = level_list = Node("def","def")
 
@@ -81,12 +88,13 @@ def fill_levels(node,argumentos_del_leve):
     return node
 #inicio del juego
 
-current = level_list = fill_levels(level_list,[["player",1,2,3,"false","algo.img", "Behaviour(1,1,30,false,false,true"],["object",1,2,4,"false","block.img", "Behaviour(0,0,0,false,false,false)"], ["object",1,2,6,"false","block.img", "Behaviour(0,0,0,false,false,false)"]])
+#current = level_list = fill_levels(level_list,[["player",1,2,3,"false","algo.img", "Behaviour(1,1,30,false,false,true"],["object",1,2,4,"false","block.img", "Behaviour(0,0,0,false,false,false)"], ["object",1,2,6,"false","block.img", "Behaviour(0,0,0,false,false,false)"]])
 
 class Console:
 
     def __init__(self):
         pass
+
 
     def run(self):
         pygame.init()
@@ -95,47 +103,39 @@ class Console:
         pygame.display.set_caption("Moving Test")
         clock = pygame.time.Clock()
 
+        all_sprites = pygame.sprite.Group()
+        plats = pygame.sprite.Group()
+        platform = Platform()
+
+        all_sprites.add(platform)
+        all_sprites = add_sprites(current, all_sprites)
+        plats.add(platform)
+
         running = True
         while running:
             clock.tick(FPS)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
+
+            all_sprites.update()
             screen.fill(BLUE)
-            update("current level")
-            draw_level(level_list, current, 3)
+            all_sprites.draw(screen)
             pygame.display.flip()
 
         pygame.quit()
-#funciones para modificar el display de los levels
+        #funciones para modificar el display de los levels
 
-#dibuja el level
-    def draw_level(level_list,current,size):
-        print(" draw")
-        current = current.get_next()
-        for x in range(0,size):
-            name = current.get_value().get_head().get_value()
-            print(name)
-            current = current.get_next()
-        current = level_list
+        #dibuja el level
+        def add_sprites(current,all_sprites):
+            print("adding sprites to group")
 
-    #moverse entre los levels
-    def update_level(level_list):
-        pass
+            for index in range(len(current.get_value.listOfObjects)):
+                all_sprites.add(current.get_value.listOfObjects[index])
 
-    def update(level):
-        print(level)
-        update_structures()
-        update_player()
-        update_Mobs()
+            return all_sprites
 
-
-    def update_structures():
-        print(" structure")
-
-    def update_player():
-        print(" player")
-
-    def update_Mobs():
-        print(" Mobs")
+        #moverse entre los levels
+        def update_level(level_list):
+            pass
 
