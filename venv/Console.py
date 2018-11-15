@@ -95,8 +95,8 @@ def fill_levels(node,argumentos_del_leve):
 #inicio del juego
 
 #current = level_list = fill_levels(level_list,[["player",1,2,3,"false","algo.img", "Behaviour(1,1,30,false,false,true"],["object",1,2,4,"false","block.img", "Behaviour(0,0,0,false,false,false)"], ["object",1,2,6,"false","block.img", "Behaviour(0,0,0,false,false,false)"]])
-beehaviour = Behaviour.Behaviour(0,0,0,False,False,False)
-objeto = [Objects.Object(50,50,False,"face.png",beehaviour)]
+beehaviour = Behaviour.Behaviour(10,10,1,False,False,False)
+objeto = [Objects.Object(50,50,True,"face.png",beehaviour)]
 level = Level("Test 1",objeto)
 current = Node(level,"null")
 class Console:
