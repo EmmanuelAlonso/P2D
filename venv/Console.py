@@ -134,7 +134,7 @@ class Console:
 
             all_sprites.update()
             screen.fill(BLUE)
-            all_sprites.draw(current, screen)
+            all_sprites.draw(screen)
             pygame.display.flip()
 
         pygame.quit()
