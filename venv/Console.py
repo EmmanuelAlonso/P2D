@@ -95,12 +95,10 @@ def fill_levels(node,argumentos_del_leve):
 #inicio del juego
 
 #current = level_list = fill_levels(level_list,[["player",1,2,3,"false","algo.img", "Behaviour(1,1,30,false,false,true"],["object",1,2,4,"false","block.img", "Behaviour(0,0,0,false,false,false)"], ["object",1,2,6,"false","block.img", "Behaviour(0,0,0,false,false,false)"]])
-beehaviour = Behaviour.Behaviour(10,0,1,False,False,False)
-beehaviour2 = Behaviour.Behaviour(200,200,1,False,False,False)
-beehaviour3 = Behaviour.Behaviour(5,0,5,False,False,False)
-objeto = [Objects.Object(700,400,True,"venv/face.png",beehaviour),Objects.Object(100,100,True,"venv/face.png",beehaviour2),Objects.Object(200,200,True,"venv/face.png",beehaviour3)]
-level = Level("Test 1",objeto)
-current = Node(level,"null")
+# beehaviour = Behaviour.Behaviour(10,0,1,False,False,False)
+# objeto = [Objects.Object(800,800,True,"venv/face.png",beehaviour),Objects.Object(100,10,True,"venv/face.png",beehaviour),Objects.Object(200,20,True,"venv/face.png",beehaviour)]
+# level = Level("Test 1",objeto)
+# current = Node(level,"null")
 class Console:
 
     def __init__(self):
@@ -140,8 +138,6 @@ class Console:
             all_sprites.update()
             screen.fill(BLUE)
             all_sprites.draw(screen)
-            index = 0
-
             pygame.display.flip()
 
         pygame.quit()
