@@ -1,6 +1,6 @@
 import Behaviour
 import pygame
-class Object:
+class Object(pygame.sprite.Sprite):
 
     def __init__(self, x, y, dynamic, image, behaviour):
         pygame.sprite.Sprite.__init__(self)
@@ -91,7 +91,7 @@ class Object:
 
 
 
-class Character:
+class Character(pygame.sprite.Sprite):
     
     def __init__(self, x, y, dynamic, image, behaviour):
         pygame.sprite.Sprite.__init__(self)
@@ -146,7 +146,7 @@ class Character:
             
 
 
-class Mobs:
+class Mobs(pygame.sprite.Sprite):
     def __init__(self, x, y, dynamic, image, behaviour):
         pygame.sprite.Sprite.__init__(self)
         self.properties = Object(x, y, dynamic, image, behaviour)
