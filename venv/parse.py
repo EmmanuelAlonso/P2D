@@ -74,6 +74,10 @@ def p_typedeclar(p):
                 | TYPENAME LPAREN listattr RPAREN DOUBLEPOINT typelist DELIMITER
                 | TYPENAME LPAREN listattr RPAREN
     '''
+    if (checkAttributes(p[1], p[3])):
+        #create instance of the class of type p[1] and supply it to p[0]
+        #example: Object(p[3][0], p[3][1], p[3][2], p[3][3], p[3][4])
+        pass
     try:
         p[0] = (p[1], p[3], p[6])
     except:
@@ -202,6 +206,21 @@ while True:
 #     except EOFError:
 #         break
 #     parser.parse(s)
+
+def checkAttributes(type, listOfAttributes):
+    if(type == 'Object'):
+        if(len(listOfAttributes) == 5):
+            if(listOfAttributes[0] != int):
+                return False
+            if (listOfAttributes[1] != int):
+                return False
+            if (listOfAttributes[2] != bool):
+                return False
+            if (listOfAttributes[3] != str):
+                return False
+            if (listOfAttributes[0] != str):
+                return False
+    return True
 
 
 
