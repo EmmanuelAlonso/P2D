@@ -50,7 +50,7 @@ class Object:
 
     def update(self):
         # x movement
-        if not behaviour.xMov == 0 and behaviour.get_dynamic and not self.reflected:
+        if not behaviour.get_x() == 0 and behaviour.get_dynamic() and not self.reflected:
             self.rect.x += behaviour.get_speed()
             self.totalMovement += behaviour.get_speed()
             if behaviour.get_x() < self.totalMovement:
@@ -70,23 +70,23 @@ class Object:
             self.totalMovement = 0
 
             # y movement
-            if not yMov == 0 and behaviour.get_dynamic and not self.reflected:
-                self.rect.y += behaviour.get_speed
-                self.totalMovement += behaviour.get_speed
-                if behaviour.yMov < self.totalMovement:
-                    self.rect.y -= self.totalMovement - behaviour.yMov
-                    self.totalMovement = behaviour.yMov
-                    if behaviour.get_reflect:
+            if not behaviour.get_y() == 0 and behaviour.get_dynamic() and not self.reflected:
+                self.rect.y += behaviour.get_speed()
+                self.totalMovement += behaviour.get_speed()
+                if behaviour.get_y() < self.totalMovement:
+                    self.rect.y -= self.totalMovement - behaviour.get_y()
+                    self.totalMovement = behaviour.get_y()
+                    if behaviour.get_reflect():
                         self.reflected = True
-            elif not yMov == 0 and behaviour.get_dynamic and self.reflected:
-                self.rect.y -= behaviour.get_speed
-                self.totalMovement += behaviour.get_speed
-                if behaviour.yMov < self.totalMovement:
-                    self.rect.y += self.totalMovement - behaviour.yMov
-                    self.totalMovement = behaviour.yMov
-                    if behaviour.get_reflect:
+            elif not behaviour.get_y() == 0 and behaviour.get_dynamic() and self.reflected:
+                self.rect.y -= behaviour.get_speed()
+                self.totalMovement += behaviour.get_speed()
+                if behaviour.get_y() < self.totalMovement:
+                    self.rect.y += self.totalMovement - behaviour.get_y()
+                    self.totalMovement = behaviour.get_y()
+                    if behaviour.get_reflect():
                         self.reflected = False
-            if behaviour.get_repeat and self.totalMovement == behaviour.get_y():
+            if behaviour.get_repeat() and self.totalMovement == behaviour.get_y():
                 self.totalMovement = 0
 
 
