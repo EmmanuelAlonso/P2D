@@ -1,9 +1,20 @@
 import ply.lex as lex
 import ply.yacc as yacc
+import Console as console
+import Behaviour as behaviour
+import Objects as objects
 
+def createObject(type, attrs, objs):
+    if(type == 'Object'):
+        return objects.Object(attrs[0], attrs[1], attrs[2], attrs[3], attrs[4])
+    elif (type == 'Player'):
+        return objects.Character(attrs[0], attrs[1], attrs[2], attrs[3], attrs[4])
+    elif (type == 'Mobs'):
+        return objects.Mobs(attrs[0], attrs[1], attrs[2], attrs[3], attrs[4])
+    elif (type == 'Level'):
+        return console.Level(attrs[0], objs)
 
-
-tokens = ['TYPENAME', 'LPAREN', 'RPAREN', 'COMMA', 'INT', 'FLOAT', 'DELIMITER', 'ID', 'DOUBLEPOINT', 'WHITESPACE']
+tokens = ['TYPENAME', 'LPAREN', 'RPAREN', 'COMMA', 'INT', 'FLOAT', 'DELIMITER', 'ID', 'DOUBLEPOINT', 'WHITESPACE', 'BOOL']
 
 reserved = {
     'Frame':'TYPENAME',
@@ -11,6 +22,9 @@ reserved = {
     'Object':'TYPENAME',
     'Level':'TYPENAME',
     'Behaviour' : 'TYPENAME',
+    'Mobs' : 'TYPENAME',
+    'True' : 'BOOL',
+    'False' : 'BOOL',
     'end':'DELIMITER'
 }
 
@@ -34,18 +48,24 @@ def t_INT(t):
     t.value = int(t.value)
     return t
 
-def t_DELIMITER(t):
-    r'[a-z]+'
-    t.type = reserved.get(t.value, 'ID')
-    return t
-
-def t_TYPENAME(t):
-    r'[A-Z][a-zA-Z]*'
-    t.type = reserved.get(t.value, 'ID')
-    return t
+# def t_DELIMITER(t):
+#     r'[a-z]+'
+#     t.type = reserved.get(t.value, 'ID')
+#     return t
+#
+# def t_TYPENAME(t):
+#     r'[A-Z][a-zA-Z]*'
+#     t.type = reserved.get(t.value, 'ID')
+#     return t
 
 def t_ID(t):
-    r'[a-zA-Z]+'
+    r'[a-zA-Z\./]+'
+    t.type = reserved.get(t.value, 'ID')
+    if(t.type == 'BOOL'):
+        if(t.value == 'True'):
+            t.value = True
+        else:
+            t.value = False
     return t
 
 lexer = lex.lex()
@@ -76,14 +96,23 @@ def p_typedeclar(p):
                 | TYPENAME LPAREN listattr RPAREN DOUBLEPOINT typelist DELIMITER
                 | TYPENAME LPAREN listattr RPAREN
     '''
-    if checkAttributes(p[1], p[3]):
-        #create instance of the class of type p[1] and supply it to p[0]
-        #example: Object(p[3][0], p[3][1], p[3][2], p[3][3], p[3][4])
-        pass
+    # if checkAttributes(p[1], p[3]):
+    #     #create instance of the class of type p[1] and supply it to p[0]
+    #     #example: Object(p[3][0], p[3][1], p[3][2], p[3][3], p[3][4])
+    #     pass
     try:
-        p[0] = (p[1], p[3], p[6])
+        p[0] = createObject(p[1], p[3], p[6])
     except:
-        p[0] = (p[1], p[3])
+        p[0] = createObject(p[1], p[3], 0)
+
+def p_simpletypedeclar(p):
+    '''
+    simpletypedeclar : TYPENAME LPAREN listattr RPAREN
+    '''
+    if(p[1] != 'Behaviour'):
+        raise Exception('Invalid entity for outer entity')
+
+    p[0] = behaviour.Behaviour(p[3][0], p[3][1], p[3][2], p[3][3], p[3][4], p[3][5])
 
 def p_list_attr(p):
     '''
@@ -97,7 +126,9 @@ def p_list_attr(p):
 
 def p_attr(p):
     '''
-    attr : FLOAT
+    attr : simpletypedeclar
+        | BOOL
+        | FLOAT
         | INT
         | ID
     '''
@@ -242,12 +273,9 @@ def checkAttributes(type, listOfAttributes):
 parser = yacc.yacc(debug=1)
 
 s = '''
-Frame(800, Loony): 
-    Level():
-        Object(1,2,4,5,6, hola) 
-        Player(1,2,3)
+    Level(Hola):
+        Player(1,2,3, True, face.png, Behaviour(1,2,3,True, True, True))
     end
-end
 '''
 parser.parse(s)
 #s = "Object(2"
