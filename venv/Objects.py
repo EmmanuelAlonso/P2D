@@ -34,11 +34,11 @@ class Object(pygame.sprite.Sprite):
     def get_behaviour(self):
         return self.behaviour
 
-    def set_y(self, x):
-        self.x = x
+    def set_x(self, x):
+        self.x = self.rect.centerx
 
     def set_y(self, y):
-        self.y = y
+        self.y = self.rect.bottom
 
     def set_dynamic(self, dynamic):
         self.dynamic = dynamic
@@ -51,98 +51,135 @@ class Object(pygame.sprite.Sprite):
 
     def update(self):
         # x movement
-        if not self.behaviour.get_x() == 0 and self.dynamic and not self.reflected:
-            self.rect.x += self.behaviour.get_speed()
-            self.totalMovement += self.behaviour.get_speed()
-            if self.behaviour.get_x() < self.totalMovement:
-                self.rect.x -= self.totalMovement - self.behaviour.get_x()
-                self.totalMovement = self.behaviour.get_x()
+        if not self.get_behaviour().get_x() == 0 and self.dynamic and not self.reflected:
+            self.rect.x += self.get_behaviour().get_speed()
+            self.totalMovement += self.get_behaviour().get_speed()
+            if self.get_behaviour().get_x() < self.totalMovement:
+                self.rect.x -= self.totalMovement - self.get_behaviour().get_x()
+                self.totalMovement = self.get_behaviour().get_x()
                 if self.behaviour.get_reflect():
+                    self.totalMovement = 0
                     self.reflected = True
-        elif not self.behaviour.get_x() == 0 and self.dynamic and self.reflected:
-            self.rect.x -= self.behaviour.get_speed()
-            self.totalMovement += self.behaviour.get_speed()
-            if self.behaviour.get_x() < self.totalMovement:
-                self.rect.x += self.totalMovement - self.behaviour.get_x()
-                self.totalMovement = self.behaviour.get_x()
-                if self.behaviour.get_reflect():
+        elif not self.get_behaviour().get_x() == 0 and self.dynamic and self.reflected:
+            self.rect.x -= self.get_behaviour().get_speed()
+            self.totalMovement += self.get_behaviour().get_speed()
+            if self.get_behaviour().get_x() < self.totalMovement:
+                self.rect.x += self.totalMovement - self.get_behaviour().get_x()
+                self.totalMovement = self.get_behaviour().get_x()
+                if self.get_behaviour().get_reflect():
+                    self.totalMovement = 0
                     self.reflected = False
-        if self.behaviour.get_repeat and self.totalMovement == self.behaviour.get_x():
+        if self.get_behaviour().get_repeat() and self.totalMovement == self.get_behaviour().get_x():
             self.totalMovement = 0
 
-        # y movement
-        if not self.behaviour.get_y() == 0 and self.dynamic and not self.reflected:
-            self.rect.y += self.behaviour.get_speed()
-            self.totalMovement += self.behaviour.get_speed()
-            if self.behaviour.get_y() < self.totalMovement:
-                self.rect.y -= self.totalMovement - self.behaviour.get_y()
-                self.totalMovement = self.behaviour.get_y()
-                if self.behaviour.get_reflect():
-                    self.reflected = True
-        elif not self.behaviour.get_y() == 0 and self.dynamic and self.reflected:
-            self.rect.y -= self.behaviour.get_speed()
-            self.totalMovement += self.behaviour.get_speed()
-            if self.behaviour.get_y() < self.totalMovement:
-                self.rect.y += self.totalMovement - self.behaviour.get_y()
-                self.totalMovement = self.behaviour.get_y()
-                if self.behaviour.get_reflect():
-                    self.reflected = False
-        if self.behaviour.get_repeat() and self.totalMovement == self.behaviour.get_y():
-            self.totalMovement = 0
+            # y movement
+            if not self.get_behaviour().get_y() == 0 and self.get_behaviour().dynamic and not self.reflected:
+                self.rect.y += self.get_behaviour().get_speed()
+                self.totalMovement += self.get_behaviour().get_speed()
+                if self.get_behaviour().get_y() < self.totalMovement:
+                    self.rect.y -= self.totalMovement - self.get_behaviour().get_y()
+                    self.totalMovement = self.get_behaviour().get_y()
+                    if self.get_behaviour().get_reflect():
+                        self.reflected = True
+            elif not self.get_behaviour().get_y() == 0 and self.dynamic and self.reflected:
+                self.rect.y -= self.get_behaviour().get_speed()
+                self.totalMovement += self.get_behaviour().get_speed()
+                if self.get_behaviour().get_y() < self.totalMovement:
+                    self.rect.y += self.totalMovement - self.get_behaviour().get_y()
+                    self.totalMovement = self.get_behaviour().get_y()
+                    if self.get_behaviour().get_reflect():
+                        self.reflected = False
+                self.totalMovement = 0
 
 
 
 class Character(pygame.sprite.Sprite):
+
     
     def __init__(self, x, y, dynamic, image, behaviour):
         pygame.sprite.Sprite.__init__(self)
-        self.properties = Object(x, y, dynamic, image, behaviour)
+        self.x = x
+        self.y = y
+        self.speedx = 0
+        self.speedy = 0
+        self.dynamic = dynamic
+        self.image_link = image
         self.image = pygame.image.load(image)
         self.rect = self.image.get_rect()
         self.rect.centerx = x
         self.rect.bottom = y
         self.rect = self.image.get_rect()
+        self.behaviour = behaviour
+        self.reflected = False
+        self.totalMovement = 0;
         self.canJump = True
 
+    def get_x(self):
+        return self.x
 
-    def get_properties(self):
-        return self.properties
+    def get_y(self):
+        return self.y
 
-    def set_properties(self, x, y, dynamic, image, behaviour):
-        self.properties = Object(x, y, dynamic, image, behaviour)
+    def dynamic(self):
+        return self.dynamic
+
+    def get_image(self):
+        return self.image_link
+
+    def get_behaviour(self):
+        return self.behaviour
+
+    def set_x(self, x):
+        self.x = self.rect.centerx
+
+    def set_y(self, y):
+        self.y = self.rect.bottom
+
+    def set_dynamic(self, dynamic):
+        self.dynamic = dynamic
+
+    def set_image(self, image):
+        self.image_link = image
+
+    def set_behaviour(self, behaviour):
+        self.behaviour = behaviour
 
     def update(self):
         keystate = pygame.key.get_pressed()
         #x movement
-        if keystate[pygame.K_a] and not self.properties.get_behaviour().get_x() == 0:
-            self.properties.speedx += -1
-            if self.properties.speedx > self.properties.get_behaviour().get_speed():
-                self.properties.speedx = self.properties.get_behaviour().get_speed()
-        if keystate[pygame.K_d] and not self.properties.get_behaviour().get_x() == 0:
-            self.properties.speedx += 1
+        if keystate[pygame.K_a]:
+            self.speedx += -1
+            if self.speedx < -self.get_behaviour().get_speed():
+                self.speedx = -self.get_behaviour().get_speed()
+        if keystate[pygame.K_d] and not self.get_behaviour().get_x() == 0:
+            self.speedx += 1
+            if self.speedx > self.get_behaviour().get_speed():
+                self.speedx = self.get_behaviour().get_speed()
         if (not keystate[pygame.K_a] and not keystate[pygame.K_d]) or (keystate[pygame.K_a] and keystate[pygame.K_d]):
-            if self.properties.speedx > 0:
-                self.properties.speedx -= .7
-            if self.properties.speedx < 0:
-                self.properties.speedx += .7
+            if self.speedx > 0:
+                self.speedx -= .7
+            if self.speedx < 0:
+                self.speedx += .7
         #y movement through gravity
-        if self.canJump and not self.properties.get_behaviour().get_y() == 0 and self.properties.get_behaviour().get_gravity():
-            self.properties.speedy = 0
+        if not self.get_behaviour().get_y() == 0 and self.get_behaviour().get_gravity():
+           #self.speedy = 0
             if keystate[pygame.K_w] and self.canJump:
-                self.properties.speedy = -15
-                self.canJump = False
-            self.properties.speedy += .5
-            if self.properties.speedy > self.properties.get_behaviour().get_speed():
-                self.properties.speedy = self.properties.get_behaviour().get_speed()
+                self.speedy = -15
+                #self.canJump = False
+            self.speedy += .5
+            if self.speedy > self.get_behaviour().get_speed():
+                self.speedy = self.get_behaviour().get_speed()
         #y movement through w and s
-        elif not self.properties.get_behaviour().get_y() == 0:
+        elif not self.get_behaviour().get_y() == 0 and not self.get_behaviour().get_gravity():
             if keystate[pygame.K_w]:
-                self.properties.speedy = -self.properties.get_behaviour().get_speed()
+                self.speedy = -self.get_behaviour().get_speed()
             if keystate[pygame.K_s]:
-                self.properties.speedy = self.properties.get_behaviour().get_speed()
+                self.speedy = self.get_behaviour().get_speed()
+            if (not keystate[pygame.K_w] and not keystate[pygame.K_s]) or (keystate[pygame.K_w] and keystate[pygame.K_s]):
+                self.speedy = 0;
 
-        self.properties.rect.x += self.properties.speedx
-        self.properties.rect.y += self.properties.speedy
+        self.rect.x += self.speedx
+        self.rect.y += self.speedy
             
             
 
@@ -150,56 +187,90 @@ class Character(pygame.sprite.Sprite):
 class Mobs(pygame.sprite.Sprite):
     def __init__(self, x, y, dynamic, image, behaviour):
         pygame.sprite.Sprite.__init__(self)
-        self.properties = Object(x, y, dynamic, image, behaviour)
+        self.x = x
+        self.y = y
+        self.speedx = 0
+        self.speedy = 0
+        self.dynamic = dynamic
+        self.image_link = image
         self.image = pygame.image.load(image)
         self.rect = self.image.get_rect()
         self.rect.centerx = x
         self.rect.bottom = y
+        self.rect = self.image.get_rect()
+        self.behaviour = behaviour
+        self.reflected = False
         self.totalMovement = 0;
+        self.canJump = True
 
-    def get_properties(self):
-        return self.properties
+    def get_x(self):
+        return self.x
 
-    def set_properties(self, x, y, dynamic, image, behaviour):
-        self.properties = Object(x, y, dynamic, image, behaviour)
+    def get_y(self):
+        return self.y
+
+    def dynamic(self):
+        return self.dynamic
+
+    def get_image(self):
+        return self.image_link
+
+    def get_behaviour(self):
+        return self.behaviour
+
+    def set_x(self, x):
+        self.x = self.rect.centerx
+
+    def set_y(self, y):
+        self.y = self.rect.bottom
+
+    def set_dynamic(self, dynamic):
+        self.dynamic = dynamic
+
+    def set_image(self, image):
+        self.image_link = image
+
+    def set_behaviour(self, behaviour):
+        self.behaviour = behaviour
 
     def update(self):
-        #x movement
-        if not self.properties.get_behaviour().get_x() == 0 and self.properties.get_behaviour().get_dynamic() and not self.reflected:
-            self.properties.rect.x += self.properties.get_behaviour().get_speed()
-            self.totalMovement += self.properties.get_behaviour().get_speed()
-            if self.properties.get_behaviour().get_x() < self.totalMovement:
-                self.properties.rect.x -= self.totalMovement-self.properties.get_behaviour().get_x()
-                self.totalMovement = self.properties.get_behaviour().get_x()
-                if behaviour.get_reflect():
+        # x movement
+        if not self.get_behaviour().get_x() == 0 and self.dynamic and not self.reflected:
+            self.rect.x += self.get_behaviour().get_speed()
+            self.totalMovement += self.get_behaviour().get_speed()
+            if self.get_behaviour().get_x() < self.totalMovement:
+                self.rect.x -= self.totalMovement - self.get_behaviour().get_x()
+                self.totalMovement = self.get_behaviour().get_x()
+                if self.behaviour.get_reflect():
+                    self.totalMovement = 0
                     self.reflected = True
-        elif not self.properties.get_behaviour().get_x() == 0 and self.properties.get_behaviour().get_dynamic() and self.reflected:
-            self.properties.rect.x -= self.properties.get_behaviour().get_speed()
-            self.totalMovement += self.properties.get_behaviour().get_speed()
-            if self.properties.get_behaviour().get_x() < self.totalMovement:
-                self.properties.rect.x += self.totalMovement - self.properties.get_behaviour().get_x()
-                self.totalMovement = self.properties.get_behaviour().get_x()
-                if self.properties.get_behaviour().get_reflect():
+        elif not self.get_behaviour().get_x() == 0 and self.dynamic and self.reflected:
+            self.rect.x -= self.get_behaviour().get_speed()
+            self.totalMovement += self.get_behaviour().get_speed()
+            if self.get_behaviour().get_x() < self.totalMovement:
+                self.rect.x += self.totalMovement - self.get_behaviour().get_x()
+                self.totalMovement = self.get_behaviour().get_x()
+                if self.get_behaviour().get_reflect():
+                    self.totalMovement = 0
                     self.reflected = False
-        if self.properties.get_behaviour().get_repeat() and self.totalMovement == self.properties.get_behaviour().get_x():
+        if self.get_behaviour().get_repeat() and self.totalMovement == self.get_behaviour().get_x():
             self.totalMovement = 0
 
             # y movement
-            if not self.properties.get_behaviour().get_y() == 0 and self.properties.get_behaviour().get_dynamic() and not self.reflected:
-                self.rect.y += self.properties.get_behaviour().get_speed()
-                self.totalMovement += self.properties.get_behaviour().get_speed()
-                if self.properties.get_behaviour().get_y() < self.totalMovement:
-                    self.properties.rect.y -= self.totalMovement - self.properties.get_behaviour().get_y()
-                    self.totalMovement = self.properties.get_behaviour().get_y()
-                    if self.properties.get_behaviour().get_reflect():
+            if not self.get_behaviour().get_y() == 0 and self.dynamic and not self.reflected:
+                self.rect.y += self.get_behaviour().get_speed()
+                self.totalMovement += self.get_behaviour().get_speed()
+                if self.get_behaviour().get_y() < self.totalMovement:
+                    self.rect.y -= self.totalMovement - self.get_behaviour().get_y()
+                    self.totalMovement = self.get_behaviour().get_y()
+                    if self.get_behaviour().get_reflect():
                         self.reflected = True
-            elif not self.properties.get_behaviour().get_y() == 0 and self.properties.get_behaviour().get_dynamic() and self.reflected:
-                self.properties.rect.y -= self.properties.get_behaviour().get_speed()
-                self.totalMovement += self.properties.get_behaviour().get_speed()
-                if self.properties.get_behaviour().get_y() < self.totalMovement:
-                    self.properties.rect.y += self.totalMovement - self.properties.get_behaviour().get_y()
-                    self.totalMovement = self.properties.get_behaviour().get_y()
-                    if self.properties.get_behaviour().get_reflect():
+            elif not self.get_behaviour().get_y() == 0 and self.dynamic and self.reflected:
+                self.rect.y -= self.get_behaviour().get_speed()
+                self.totalMovement += self.get_behaviour().get_speed()
+                if self.get_behaviour().get_y() < self.totalMovement:
+                    self.rect.y += self.totalMovement - self.get_behaviour().get_y()
+                    self.totalMovement = self.get_behaviour().get_y()
+                    if self.get_behaviour().get_reflect():
                         self.reflected = False
-            if self.properties.get_behaviour().get_repeat() and self.totalMovement == self.properties.get_behaviour().get_y():
                 self.totalMovement = 0
