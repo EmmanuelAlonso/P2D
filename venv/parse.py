@@ -14,13 +14,13 @@ def createObject(type, attrs, objs):
     elif (type == 'Level'):
         return console.Level(attrs[0], objs) # Len = 1 Behaviour is 6
 
-tokens = ['TYPENAME', 'LPAREN', 'RPAREN', 'COMMA', 'INT', 'FLOAT', 'DELIMITER', 'ID', 'DOUBLEPOINT', 'WHITESPACE', 'BOOL']
+tokens = ['TYPENAME', 'LPAREN', 'RPAREN', 'COMMA', 'INT', 'FLOAT', 'DELIMITER', 'ID', 'DOUBLEPOINT', 'WHITESPACE', 'BOOL', 'LEVEL']
 
 reserved = {
     'Frame':'TYPENAME',
     'Player':'TYPENAME',
     'Object':'TYPENAME',
-    'Level':'TYPENAME',
+    'Level':'LEVEL',
     'Behaviour' : 'TYPENAME',
     'Mobs' : 'TYPENAME',
     'True' : 'BOOL',
@@ -69,6 +69,41 @@ def t_ID(t):
     return t
 
 lexer = lex.lex()
+
+def p_main(p):
+    '''
+    P2D : levellist
+    '''
+    head = None
+    if(len(p[1]) != 0):
+        head = console.Node(p[1][0], None)
+        current = head
+        i = 1;
+        while(i<len(p[1])):
+            current.set_next(console.Node(p[1][i], None))
+            current = current.get_next()
+
+    console.current = head
+    console.Console().run()
+
+def p_levellist(p):
+    '''
+    levellist : level levellist
+            | level
+    '''
+    try:
+        p[0] = [p[1]]+p[2]
+    except:
+        p[0] = [p[1]]
+
+def p_level(p):
+    '''
+    level : LEVEL LPAREN listattr RPAREN DOUBLEPOINT typelist DELIMITER
+    '''
+
+    if(not checkAttributes('Level', p[3], p[6])):
+        raise Exception('Invalid attributes for type Level')
+    p[0] = console.Level(p[3][0], p[6])
 
 def p_main_expression(p):
     '''

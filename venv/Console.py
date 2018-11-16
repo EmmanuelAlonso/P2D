@@ -98,7 +98,7 @@ def fill_levels(node,argumentos_del_leve):
 # beehaviour = Behaviour.Behaviour(10,0,1,False,False,False)
 # objeto = [Objects.Object(800,800,True,"venv/face.png",beehaviour),Objects.Object(100,10,True,"venv/face.png",beehaviour),Objects.Object(200,20,True,"venv/face.png",beehaviour)]
 # level = Level("Test 1",objeto)
-# current = Node(level,"null")
+current = Node(level,"null")
 class Console:
 
     def __init__(self):
