@@ -12,7 +12,7 @@ def createObject(type, attrs, objs):
     elif (type == 'Mobs'):
         return objects.Mobs(attrs[0], attrs[1], attrs[2], attrs[3], attrs[4])
     elif (type == 'Level'):
-        return console.Level(attrs[0], objs)
+        return console.Level(attrs[0], objs) # Len = 1 Behaviour is 6
 
 tokens = ['TYPENAME', 'LPAREN', 'RPAREN', 'COMMA', 'INT', 'FLOAT', 'DELIMITER', 'ID', 'DOUBLEPOINT', 'WHITESPACE', 'BOOL']
 
@@ -97,9 +97,9 @@ def p_typedeclar(p):
                 | TYPENAME LPAREN listattr RPAREN
     '''
     if checkAttributes(p[1], p[3]):
-        #create instance of the class of type p[1] and supply it to p[0]
-        #example: Object(p[3][0], p[3][1], p[3][2], p[3][3], p[3][4])
-        pass
+         #create instance of the class of type p[1] and supply it to p[0]
+         #example: Object(p[3][0], p[3][1], p[3][2], p[3][3], p[3][4])
+         pass
     try:
         p[0] = createObject(p[1], p[3], p[6])
     except:
@@ -217,21 +217,51 @@ def run(p):
 def checkAttributes(type, listOfAttributes):
     print('Checking.../n')
     print(type + ' Found...')
-    if(type == 'Object'):
-        print('List has length ' + str(len(listOfAttributes)))
-        if(len(listOfAttributes) == 5):
-            if(listOfAttributes[0] != int):
+    # if(type == 'Object'):
+    #     #     print('List has length ' + str(len(listOfAttributes)))
+    #     #     if(len(listOfAttributes) == 5):
+    #     #         if(listOfAttributes[0] != int):
+    #     #             return False
+    #     #         if (listOfAttributes[1] != int):
+    #     #             return False
+    #     #         if (listOfAttributes[2] != bool):
+    #     #             return False
+    #     #         if (listOfAttributes[3] != str):
+    #     #             return False
+    #     #         if (listOfAttributes[0] != str):
+    #     #             return False
+    #     #     else:
+    #     #         return False
+
+    if(type == 'Player' or type == 'Object' or type == 'Mobs') :
+        print('Checking Player Len')
+        if (len(listOfAttributes) == 5):
+            print('Checking Player x')
+            if isinstance( listOfAttributes[0] , int) != True :
+                print('x failed')
                 return False
-            if (listOfAttributes[1] != int):
+            print('Checking Player y')
+            if isinstance( listOfAttributes[1] , int) != True:
                 return False
-            if (listOfAttributes[2] != bool):
+            print('Checking Player Dynamic')
+            if isinstance( listOfAttributes[2] , bool) != True:
                 return False
-            if (listOfAttributes[3] != str):
+            print('Checking Player Icon')
+            if isinstance( listOfAttributes[3] , str) != True:
+                print(str(listOfAttributes[3].__class__.__name__))
+                print('icon failed')
                 return False
-            if (listOfAttributes[0] != str):
+            print('Checking Player Behaviour')
+            print(str(listOfAttributes[4].__class__.__name__))
+            if (isinstance(listOfAttributes[4], behaviour.Behaviour) != True):
+                print(str(listOfAttributes[4].__class__.__name__))
+                print('Player Check Failed')
                 return False
         else:
+            print('Player Check Failed end')
             return False
+
+
 
     if(type == 'Frame'):
         #print('Frame Found...\n')
@@ -246,24 +276,26 @@ def checkAttributes(type, listOfAttributes):
         else:
             return False
     if(type == 'Level'):
-         if (len(listOfAttributes) != 0):
-                 return False
+        if (len(listOfAttributes) == 1):
+            if isinstance(listOfAttributes[0], str) != True:
+                    print('Level Name check Failed')
+                    return False
+        else:
+            return false
 
     if (type == 'Behaviour'):
         if (len(listOfAttributes) == 6):
-            if (listOfAttributes[0] != int):
+            if isinstance(listOfAttributes[0], int) != True:
                 return False
-            if (listOfAttributes[1] != int):
+            if isinstance(listOfAttributes[1], int) != True:
                 return False
             if isinstance(listOfAttributes[2], float) != True:
                 return False
-            if (listOfAttributes[3] != str):
+            if isinstance( listOfAttributes[3] , bool) != True:
                 return False
-            if (listOfAttributes[4] != str):
+            if isinstance( listOfAttributes[4] , bool) != True:
                 return False
-            if (listOfAttributes[5] != str):
-                return False
-            if (listOfAttributes[6] != str):
+            if isinstance( listOfAttributes[5] , bool) != True:
                 return False
         else:
             return False
@@ -274,7 +306,9 @@ parser = yacc.yacc(debug=1)
 
 s = '''
     Level(Hola):
-        Player(1,2, True, face.png, Behaviour(1,2,3,True, True, True))
+        Player( 1 ,2, True, face.png, Behaviour(1,2,3,True, True, True))
+        Object( 1 ,2, True, face.png, Behaviour(1,2,3,True, True, True))
+        Behaviour(1,2,3,True, True, True)
     end
 '''
 parser.parse(s)
