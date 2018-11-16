@@ -101,7 +101,7 @@ def p_level(p):
     level : LEVEL LPAREN listattr RPAREN DOUBLEPOINT typelist DELIMITER
     '''
 
-    if(not checkAttributes('Level', p[3], p[6])):
+    if(not checkAttributes('Level', p[3])):
         raise Exception('Invalid attributes for type Level')
     p[0] = console.Level(p[3][0], p[6])
 
@@ -343,9 +343,8 @@ parser = yacc.yacc(debug=1)
 
 s = '''
     Level(Hola):
-        Player( 1 ,2, True, face.png, Behaviour(1,2,3.0,True, True, True))
-        Object( 1 ,2, True, face.png, Behaviour(1,2,3.0,True, True, True))
-        Behaviour(1,2,3.0,True, True, True)
+        Player( 100 ,200, True, face.png, Behaviour(1,2,5.0,False, False, True))
+        Object( 200 ,50, True, face.png, Behaviour(50,0,3.0,False, True, False))
     end
 '''
 parser.parse(s)

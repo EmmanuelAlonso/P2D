@@ -17,7 +17,7 @@ class Object(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.behaviour = behaviour
         self.reflected = False
-        self.totalMovement = 0;
+        self.totalMovement = 0
 
     def get_x(self):
         return self.x
@@ -111,7 +111,7 @@ class Character(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.behaviour = behaviour
         self.reflected = False
-        self.totalMovement = 0;
+        self.totalMovement = 0
         self.canJump = True
 
     def get_x(self):
@@ -200,7 +200,7 @@ class Mobs(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.behaviour = behaviour
         self.reflected = False
-        self.totalMovement = 0;
+        self.totalMovement = 0
         self.canJump = True
 
     def get_x(self):
