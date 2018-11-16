@@ -96,10 +96,10 @@ def p_typedeclar(p):
                 | TYPENAME LPAREN listattr RPAREN DOUBLEPOINT typelist DELIMITER
                 | TYPENAME LPAREN listattr RPAREN
     '''
-    if checkAttributes(p[1], p[3]):
+    if not checkAttributes(p[1], p[3]):
          #create instance of the class of type p[1] and supply it to p[0]
          #example: Object(p[3][0], p[3][1], p[3][2], p[3][3], p[3][4])
-         pass
+         raise Exception('Invalid attributes for type', p[1])
     try:
         p[0] = createObject(p[1], p[3], p[6])
     except:
@@ -112,6 +112,8 @@ def p_simpletypedeclar(p):
     if(p[1] != 'Behaviour'):
         raise Exception('Invalid entity for outer entity')
 
+    if(not checkAttributes('Behaviour', p[3])):
+        raise Exception('Invalid attributes for type Behaviour')
     p[0] = behaviour.Behaviour(p[3][0], p[3][1], p[3][2], p[3][3], p[3][4], p[3][5])
 
 def p_list_attr(p):
@@ -306,9 +308,9 @@ parser = yacc.yacc(debug=1)
 
 s = '''
     Level(Hola):
-        Player( 1 ,2, True, face.png, Behaviour(1,2,3,True, True, True))
-        Object( 1 ,2, True, face.png, Behaviour(1,2,3,True, True, True))
-        Behaviour(1,2,3,True, True, True)
+        Player( 1 ,2, True, face.png, Behaviour(1,2,3.0,True, True, True))
+        Object( 1 ,2, True, face.png, Behaviour(1,2,3.0,True, True, True))
+        Behaviour(1,2,3.0,True, True, True)
     end
 '''
 parser.parse(s)
