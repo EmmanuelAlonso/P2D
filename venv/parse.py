@@ -96,10 +96,10 @@ def p_typedeclar(p):
                 | TYPENAME LPAREN listattr RPAREN DOUBLEPOINT typelist DELIMITER
                 | TYPENAME LPAREN listattr RPAREN
     '''
-    # if checkAttributes(p[1], p[3]):
-    #     #create instance of the class of type p[1] and supply it to p[0]
-    #     #example: Object(p[3][0], p[3][1], p[3][2], p[3][3], p[3][4])
-    #     pass
+    if checkAttributes(p[1], p[3]):
+        #create instance of the class of type p[1] and supply it to p[0]
+        #example: Object(p[3][0], p[3][1], p[3][2], p[3][3], p[3][4])
+        pass
     try:
         p[0] = createObject(p[1], p[3], p[6])
     except:
@@ -274,7 +274,7 @@ parser = yacc.yacc(debug=1)
 
 s = '''
     Level(Hola):
-        Player(1,2,3, True, face.png, Behaviour(1,2,3,True, True, True))
+        Player(1,2, True, face.png, Behaviour(1,2,3,True, True, True))
     end
 '''
 parser.parse(s)
