@@ -73,7 +73,7 @@ class Object(pygame.sprite.Sprite):
             self.totalMovement = 0
 
             # y movement
-            if not self.get_behaviour().get_y() == 0 and self.get_behaviour().dynamic and not self.reflected:
+            if not self.get_behaviour().get_y() == 0 and self.dynamic and not self.reflected:
                 self.rect.y += self.get_behaviour().get_speed()
                 self.totalMovement += self.get_behaviour().get_speed()
                 if self.get_behaviour().get_y() < self.totalMovement:
