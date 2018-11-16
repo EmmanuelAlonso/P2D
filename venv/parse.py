@@ -48,16 +48,6 @@ def t_INT(t):
     t.value = int(t.value)
     return t
 
-# def t_DELIMITER(t):
-#     r'[a-z]+'
-#     t.type = reserved.get(t.value, 'ID')
-#     return t
-#
-# def t_TYPENAME(t):
-#     r'[A-Z][a-zA-Z]*'
-#     t.type = reserved.get(t.value, 'ID')
-#     return t
-
 def t_ID(t):
     r'[a-zA-Z\./]+'
     t.type = reserved.get(t.value, 'ID')
@@ -111,7 +101,6 @@ def p_main_expression(p):
     '''
     print("List containing all objects. Each object has (type, list of arguments, list of objects created below if any). List of objects is recursive")
     print(p[1])
-    #p[1] contains all the info necessary to build the game
 
 
 def p_typelist(p):
@@ -132,8 +121,6 @@ def p_typedeclar(p):
                 | TYPENAME LPAREN listattr RPAREN
     '''
     if not checkAttributes(p[1], p[3]):
-         #create instance of the class of type p[1] and supply it to p[0]
-         #example: Object(p[3][0], p[3][1], p[3][2], p[3][3], p[3][4])
          raise Exception('Invalid attributes for type', p[1])
     try:
         p[0] = createObject(p[1], p[3], p[6])
@@ -170,70 +157,6 @@ def p_attr(p):
         | ID
     '''
     p[0] = p[1]
-# def t_OBJECT(t):
-#
-#     r'\W*(Object)'
-#     t.type = 'Object'
-#     return t
-#
-# def t_Behavior(t):
-#     r'Behavior'
-#     t.type = 'Behavior'
-#     t.value = 'Behavior'
-#     return t
-#
-# def t_Frame(t):
-#     r'\W*(Frame)'
-#     t.type = 'Frame'
-#     return t
-#
-# def t_Type(t):
-#     r'Type'
-#     t.type = 'Type'
-#     t.value = 'Type'
-#     return t
-#
-# def t_Icon(t):
-#     r'\W*(Icon)'
-#     return t
-#
-# def t_error(t):
-#     print("Illegal character")
-#     t.lexer.skip(1)
-#
-# lexer = lex.lex()
-#
-# def p_P2D(p):
-#
-#     '''
-#    P2D : OBJECT
-#         | display
-#         | empty
-#     '''
-#     run(p[1])
-#
-# def p_display(p):
-#     '''
-#     display :  Frame LPAREN INT COMMA INT RPAREN
-#     '''
-#     p[0] = (p[1], p[3], p[5])
-#     print(p[0])
-#
-# def p_OBJECT(p):
-#     '''
-#     OBJECT : Object LPAREN INT COMMA INT COMMA INT COMMA Type COMMA Behavior RPAREN
-#     '''
-#     print(p[4])
-#     print(p[5])
-#     p[0] = (p[1], p[3], p[5], p[7], p[9], p[11])
-#     print(p[0])
-
-# def p_TYPE(p):
-#     '''
-#     TYPE : Type Type INT
-#     '''
-#     p[0] = (p[1], p[2], p[3])
-#     print(p[0])
 
 def p_empty(p):
 
@@ -254,21 +177,6 @@ def run(p):
 def checkAttributes(type, listOfAttributes):
     print('Checking.../n')
     print(type + ' Found...')
-    # if(type == 'Object'):
-    #     #     print('List has length ' + str(len(listOfAttributes)))
-    #     #     if(len(listOfAttributes) == 5):
-    #     #         if(listOfAttributes[0] != int):
-    #     #             return False
-    #     #         if (listOfAttributes[1] != int):
-    #     #             return False
-    #     #         if (listOfAttributes[2] != bool):
-    #     #             return False
-    #     #         if (listOfAttributes[3] != str):
-    #     #             return False
-    #     #         if (listOfAttributes[0] != str):
-    #     #             return False
-    #     #     else:
-    #     #         return False
 
     if(type == 'Player' or type == 'Object' or type == 'Mobs') :
         print('Checking Player Len')
@@ -341,27 +249,21 @@ def checkAttributes(type, listOfAttributes):
 
 parser = yacc.yacc(debug=1)
 
-s = '''
-    Level(Hola):
-        Player( 100 ,200, True, face.png, Behaviour(1,2,5.0,False, False, True))
-        Object( 200 ,50, True, face.png, Behaviour(50,0,3.0,False, True, False))
-    end
-'''
+filename = input('File: ')
+
+file = open(filename, 'r')
+
+s = ''
+for line in file:
+    s+=line
+
 parser.parse(s)
-#s = "Object(2"
 lexer.input(s)
 while True:
     tok = lexer.token()
     if not tok:
         break
     print(tok)
-
-# while True:
-#     try:
-#         s= input(' ')
-#     except EOFError:
-#         break
-#     parser.parse(s)
 
 
 
