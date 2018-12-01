@@ -124,9 +124,16 @@ class Console:
         # print("P_yd-)_yu")
         # print("{} {}".format(player_yu, object_yd))
         # print("P_yu-)_yd")
-        if (player_xr >= object_xl or player_xl <= object_xr) and (player_yd >= object_yu or player_yu <= object_yd):
-            return True
-        return False
+        if (player_xr >= object_xl and player_xl <= object_xr) and (player_yd >= object_yu and player_yu <= object_yd):
+            if((player_xr - object_xl)>5) and (player_xl - object_xr)<6:
+                if((player_xl - object_xr<-5) and (player_xr - object_xl>-6)):
+                    if(player_yd - object_yu>5)and player_yu - object_yd<6:
+                        if player_yu - object_yd<5 and player_yd - object_yu>6:
+                            return 2
+                        return 3
+                    return 1
+                return 0
+        return -1
        # print("size: ")
         #print(current.get_value().get_objects()[0].get_image().get_rect().size[0])
 
@@ -138,9 +145,9 @@ class Console:
         print(player)
         if player != "lechuga":
             for index in range(len(objects)):
-                if(player != objects[index] and self.collision_player_object(player, objects[index] ) ):
-                    return True
-        return False
+                if(player != objects[index]  ):
+                    return  self.collision_player_object(player, objects[index])
+        return -1
 
 
 
@@ -180,9 +187,8 @@ class Console:
             all_sprites.update()
             screen.fill(BLUE)
             all_sprites.draw(screen)
-            if self.collision(current.get_value().get_objects()):
-                pass
-                #running=False
+            print (self.collision(current.get_value().get_objects()))
+
             pygame.display.flip()
 
         pygame.quit()
