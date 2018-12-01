@@ -22,10 +22,10 @@ class Object(pygame.sprite.Sprite):
         return "object"
 
     def get_x(self):
-        return self.x
+        return self.rect.x
 
     def get_y(self):
-        return self.y
+        return self.rect.y
 
     def dynamic(self):
         return self.dynamic
@@ -123,10 +123,10 @@ class Character(pygame.sprite.Sprite):
         return "character"
 
     def get_x(self):
-        return self.x
+        return self.rect.x
 
     def get_y(self):
-        return self.y
+        return self.rect.y
 
     def dynamic(self):
         return self.dynamic
@@ -224,10 +224,10 @@ class Mobs(pygame.sprite.Sprite):
         return "mob"
 
     def get_x(self):
-        return self.x
+        return self.rect.x
 
     def get_y(self):
-        return self.y
+        return self.rect.y
 
     def dynamic(self):
         return self.dynamic
