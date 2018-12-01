@@ -104,12 +104,47 @@ class Console:
     def __init__(self):
         pass
 
+    def collision_player_object(self,player,object):
+        player_xr=player.get_x()+player.get_image().get_rect().size[0]/2
+        player_xl=player.get_x()-player.get_image().get_rect().size[1]/2
+        player_yu=player.get_y()
+        player_yd=player.get_y()+player.get_image().get_rect().size[1]
+        object_xr=object.get_x()+object.get_image().get_rect().size[0]/2
+        object_xl=object.get_x()-object.get_image().get_rect().size[0]/2
+        object_yu=object.get_y()
+        object_yd=object.get_y()+object.get_image().get_rect().size[1]
+        print("=============================CODE========================================")
+        print(player_xr >= object_xl or player_xl <= object_xr) and (player_yd <= object_yu or player_yu >= object_yd)
+        if (player_xr >= object_xl or player_xl <= object_xr) and (player_yd <= object_yu or player_yu >= object_yd):
+            return True
+        return False
+       # print("size: ")
+        #print(current.get_value().get_objects()[0].get_image().get_rect().size[0])
+
+    def collision(self,objects):
+        player = "lechuga"
+        for index in range(len(objects)):
+            if objects[index].get_type()=="character":
+               player = objects[index]
+        print(player)
+        if player != "lechuga":
+            for index in range(len(objects)):
+                if(player == objects[index] and self.collision_player_object(player, objects[index] ) ):
+
+                    return True
+        return False
+
+
+
     def add_sprites(self,current, all_sprites):
+
         print("adding sprites to group")
         print(len(current.get_value().get_objects()))
+
         for index in range(len(current.get_value().get_objects())):
             print((current.get_value().get_objects()[index].get_x()))
             all_sprites.add(current.get_value().get_objects()[index])
+
         return all_sprites
 
     def run(self):
@@ -127,7 +162,6 @@ class Console:
         all_sprites=self.add_sprites(current, all_sprites)
         all_sprites.add(platform)
         #plats.add(platform)
-
         running = True
         while running:
             clock.tick(FPS)
@@ -138,6 +172,9 @@ class Console:
             all_sprites.update()
             screen.fill(BLUE)
             all_sprites.draw(screen)
+            if self.collision(current.get_value().get_objects()):
+                pass
+               # running=False
             pygame.display.flip()
 
         pygame.quit()

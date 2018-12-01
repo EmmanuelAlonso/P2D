@@ -18,6 +18,9 @@ class Object(pygame.sprite.Sprite):
         self.reflected = False
         self.totalMovement = 0
 
+    def get_type(self):
+        return "object"
+
     def get_x(self):
         return self.x
 
@@ -28,6 +31,9 @@ class Object(pygame.sprite.Sprite):
         return self.dynamic
 
     def get_image(self):
+        return self.image
+
+    def get_image_link(self):
         return self.image_link
 
     def get_behaviour(self):
@@ -113,6 +119,9 @@ class Character(pygame.sprite.Sprite):
         self.totalMovement = 0
         self.canJump = True
 
+    def get_type(self):
+        return "character"
+
     def get_x(self):
         return self.x
 
@@ -123,10 +132,16 @@ class Character(pygame.sprite.Sprite):
         return self.dynamic
 
     def get_image(self):
+        return self.image
+
+    def get_image_link(self):
         return self.image_link
 
     def get_behaviour(self):
         return self.behaviour
+
+    def get_image(self):
+        return self.image
 
     def set_x(self, x):
         self.x = self.rect.centerx
@@ -137,8 +152,11 @@ class Character(pygame.sprite.Sprite):
     def set_dynamic(self, dynamic):
         self.dynamic = dynamic
 
-    def set_image(self, image):
-        self.image_link = image
+    def set_image_link(self, image_link):
+        self.image_link = image_link
+
+    def set_image(self,image):
+        self.image = image
 
     def set_behaviour(self, behaviour):
         self.behaviour = behaviour
@@ -202,6 +220,9 @@ class Mobs(pygame.sprite.Sprite):
         self.totalMovement = 0
         self.canJump = True
 
+    def get_type(self):
+        return "mob"
+
     def get_x(self):
         return self.x
 
@@ -211,8 +232,11 @@ class Mobs(pygame.sprite.Sprite):
     def dynamic(self):
         return self.dynamic
 
-    def get_image(self):
+    def get_image_link(self):
         return self.image_link
+
+    def get_image(self):
+        return self.image
 
     def get_behaviour(self):
         return self.behaviour
@@ -226,7 +250,7 @@ class Mobs(pygame.sprite.Sprite):
     def set_dynamic(self, dynamic):
         self.dynamic = dynamic
 
-    def set_image(self, image):
+    def set_image_link(self, image):
         self.image_link = image
 
     def set_behaviour(self, behaviour):
