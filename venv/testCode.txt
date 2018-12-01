@@ -1,4 +1,6 @@
 Level(Hola):
-         Player( 100 ,200, True, face.png, Behaviour(1,2,5.0,False, False, True))
-         Object( 200 ,50, True, face.png, Behaviour(50,0,3.0,False, True, False))
+         Player( 0 ,50, True, face.png, Behaviour(1,2,5.0,False, False, True))
+         Object( 0 ,100, True, Platform.png, Behaviour(0,0,0.0,False, False, False))
+         Object( 300 ,50, True, face.png, Behaviour(50,0,3.0,False, True, False))
+
     end
