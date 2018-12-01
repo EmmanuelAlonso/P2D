@@ -105,13 +105,13 @@ class Console:
         pass
 
     def collision_player_object(self,player,object):
-        player_xr=player.get_x()+player.get_image().get_rect().size[0]/2
-        player_xl=player.get_x()-player.get_image().get_rect().size[0]/2
+        player_xr=player.get_x()+player.get_image().get_rect().size[0]
+        player_xl=player.get_x()
         player_yu=player.get_y()
         player_yd=player.get_y()+player.get_image().get_rect().size[1]
-        object_xr=object.get_x()+object.get_image().get_rect().size[0]/2
-        object_xl=object.get_x()-object.get_image().get_rect().size[0]/2
-        object_yu=object.get_y()
+        object_xr=object.get_x()+object.get_image().get_rect().size[0]
+        object_xl=object.get_x()
+        object_yu = object.get_y()
         object_yd=object.get_y()+object.get_image().get_rect().size[1]
         print("=============================CODE========================================")
         print (player_xr >= object_xl and player_xl <= object_xr)
@@ -122,7 +122,7 @@ class Console:
         # print("P_xl-)_xr")
         # print("{} {}".format(player_yd, object_yu))
         # print("P_yd-)_yu")
-        # print("{} {}".format(player_yu, object_yd))d
+        # print("{} {}".format(player_yu, object_yd))
         # print("P_yu-)_yd")
         if (player_xr >= object_xl or player_xl <= object_xr) and (player_yd >= object_yu or player_yu <= object_yd):
             return True
@@ -137,8 +137,8 @@ class Console:
                player = objects[index]
         print(player)
         if player != "lechuga":
-            for index in range(len(objects)-1):
-                if(player != objects[index+1] and self.collision_player_object(player, objects[index+1] ) ):
+            for index in range(len(objects)):
+                if(player != objects[index] and self.collision_player_object(player, objects[index] ) ):
                     return True
         return False
 
