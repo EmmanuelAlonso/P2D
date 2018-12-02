@@ -211,15 +211,21 @@ class Character(pygame.sprite.Sprite):
                     self.rect.y -= 5
             if self.coldirection == 2:
                 self.speedy = 0
+                self.onplat = False
                 self.rect.y += 5
-            self.coldirection = -1
             if self.onplat:
                 self.speedy = 0
                 self.canJump = True
 
-        #if self.coldirection == 1 or self.coldirection == 0:
-        #    self.speedx = 0
-        #    self.coldirection = -1
+        if self.coldirection == 1 and keystate[pygame.K_a]:
+            self.speedx = 0
+
+        if self.coldirection == 0 and keystate[pygame.K_d]:
+            self.speedx = 0
+
+        if self.coldirection == -1:
+            self.canJump = False
+            self.onplat = False
 
         self.rect.x += self.speedx
         self.rect.y += self.speedy
@@ -244,6 +250,7 @@ class Mobs(pygame.sprite.Sprite):
         self.reflected = False
         self.totalMovement = 0
         self.canJump = True
+        self.onplat = False
 
     def get_type(self):
         return "mob"
@@ -331,16 +338,21 @@ class Mobs(pygame.sprite.Sprite):
 
             if self.coldirection == 3 or self.coldirection == 2:
                 self.speedy = 0
-                if self.coldirection == 2:
-                    self.rect.y += 5
-                self.coldirection = -1
                 if self.coldirection == 3:
+                    self.onplat = True
+                if self.coldirection == 2:
+                    self.onplat = False
+                    self.rect.y += 5
+                if self.onplat:
+                    self.speedy = 0
                     self.canJump = True
 
-            if self.coldirection == 1 or self.coldirection == 0:
+            if self.coldirection == 1 and self.speedx < 0:
                 self.speedx = 0
-                if self.coldirection == 0:
-                    self.rect.x += 5
-                else:
-                    self.rect.x -= 5
-                self.coldirection = -1
+
+            if self.coldirection == 0 and self.speedx > 0:
+                self.speedx = 0
+
+            if self.coldirection == -1:
+                self.canJump = False
+                self.onplat = False
