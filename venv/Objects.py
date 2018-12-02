@@ -105,6 +105,7 @@ class Character(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.x = x
         self.y = y
+        self.coldirection = -1
         self.speedx = 0
         self.speedy = 0
         self.dynamic = dynamic
@@ -118,9 +119,13 @@ class Character(pygame.sprite.Sprite):
         self.reflected = False
         self.totalMovement = 0
         self.canJump = True
+        self.onplat = False
 
     def get_type(self):
         return "character"
+
+    def get_coldirection(self):
+        return self.coldirection
 
     def get_x(self):
         return self.rect.x
@@ -145,6 +150,9 @@ class Character(pygame.sprite.Sprite):
 
     def set_x(self, x):
         self.x = self.rect.centerx
+
+    def set_coldirection(self, dir):
+        self.coldirection = dir
 
     def set_y(self, y):
         self.y = self.rect.bottom
@@ -182,7 +190,7 @@ class Character(pygame.sprite.Sprite):
            #self.speedy = 0
             if keystate[pygame.K_w] and self.canJump:
                 self.speedy = -15
-                #self.canJump = False
+                self.canJump = False
             self.speedy += .5
             if self.speedy > self.get_behaviour().get_speed():
                 self.speedy = self.get_behaviour().get_speed()
@@ -193,10 +201,25 @@ class Character(pygame.sprite.Sprite):
             if keystate[pygame.K_s]:
                 self.speedy = self.get_behaviour().get_speed()
             if (not keystate[pygame.K_w] and not keystate[pygame.K_s]) or (keystate[pygame.K_w] and keystate[pygame.K_s]):
-                self.speedy = 0;
+                self.speedy = 0
+
+        if self.coldirection == 3 or self.coldirection == 2:
+            if not keystate[pygame.K_w]:
+                self.speedy = 0
+            if self.coldirection == 2:
+                self.rect.y += 5
+            self.coldirection = -1
+            if self.coldirection == 3:
+                self.rect.y -= 5
+                self.canJump = True
+
+        # if self.coldirection == 1 or self.coldirection == 0:
+        #     self.speedx = 0
+        #     self.coldirection = -1
 
         self.rect.x += self.speedx
         self.rect.y += self.speedy
+
             
             
 
@@ -206,6 +229,7 @@ class Mobs(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.x = x
         self.y = y
+        self.coldirection = -1
         self.speedx = 0
         self.speedy = 0
         self.dynamic = dynamic
@@ -222,6 +246,9 @@ class Mobs(pygame.sprite.Sprite):
 
     def get_type(self):
         return "mob"
+
+    def get_coldirection(self):
+        return self.coldirection
 
     def get_x(self):
         return self.rect.x
@@ -240,6 +267,9 @@ class Mobs(pygame.sprite.Sprite):
 
     def get_behaviour(self):
         return self.behaviour
+
+    def set_coldirection(self, dir):
+        self.coldirection = dir
 
     def set_x(self, x):
         self.x = self.rect.centerx
@@ -297,3 +327,19 @@ class Mobs(pygame.sprite.Sprite):
                     if self.get_behaviour().get_reflect():
                         self.reflected = False
                 self.totalMovement = 0
+
+            if self.coldirection == 3 or self.coldirection == 2:
+                self.speedy = 0
+                if self.coldirection == 2:
+                    self.rect.y += 5
+                self.coldirection = -1
+                if self.coldirection == 3:
+                    self.canJump = True
+
+            if self.coldirection == 1 or self.coldirection == 0:
+                self.speedx = 0
+                if self.coldirection == 0:
+                    self.rect.x += 5
+                else:
+                    self.rect.x -= 5
+                self.coldirection = -1
