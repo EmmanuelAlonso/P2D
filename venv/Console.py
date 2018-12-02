@@ -148,7 +148,7 @@ class Console:
         if player != "lechuga":
             for index in range(len(objects)):
                 if(player != objects[index]  ):
-                    return  self.collision_player_object(player, objects[index])
+                   player.set_coldirection(self.collision_player_object(player, objects[index]))
         return -1
 
 
