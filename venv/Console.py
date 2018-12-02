@@ -98,6 +98,7 @@ class Console:
             if player.get_y()>object.get_y() and player_xr > object_xl + 5 and player_xl<object_xr-5:
                 return 2
             if player.get_y()<object.get_y()  and player_xr > object_xl + 5 and player_xl<object_xr-5:
+                player.rect.y = object.rect.y - player.rect.size[1]
                 return 3
             if (player.get_x()<object.get_x()):
                 print ("0")
