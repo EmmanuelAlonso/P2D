@@ -125,15 +125,17 @@ class Console:
         # print("{} {}".format(player_yu, object_yd))
         # print("P_yu-)_yd")
         if (player_xr >= object_xl and player_xl <= object_xr) and (player_yd >= object_yu and player_yu <= object_yd):
-            #if(player.get_x()<object.get_x() ):
-               # return 0
-            #if player.get_x()>object.get_x() :
-                #return 1
-            if player.get_y()>object.get_y() :
-                return 2
-            if player.get_y()<object.get_y() :
-                return 3
 
+            if player.get_y()>object.get_y() and player_xr > object_xl + 5 and player_xl<object_xr-5:
+                return 2
+            if player.get_y()<object.get_y()  and player_xr > object_xl + 5 and player_xl<object_xr-5:
+                return 3
+            if (player.get_x()<object.get_x()):
+                print ("0")
+                return 0
+            if player.get_x()>object.get_x() :
+                print("1")
+                return 1
 
         return -1
        # print("size: ")
