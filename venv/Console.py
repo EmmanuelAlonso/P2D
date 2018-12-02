@@ -48,33 +48,16 @@ class Platform(pygame.sprite.Sprite):
         self.rect.centerx = WIDTH / 2
         self.rect.bottom = 4*HEIGHT / 5
 
-#current = level_list = Node("def","def")
-
 #class for storange levels
 class Level:
-    # head =Node("def", "def")
-    # size = 0
+
     def __init__ (self, name = "Default", objects = []):
         self.name = name
         self.listOfObjects = objects
 
-    # def __init__(self,name="Default",argumentos=[]):
-        # self.name=name
-        # self.head = Node(argumentos, self.head)
-        # current = self.head
-        # #print(len(argumentos))
-        # for eachValue in argumentos :
-        #     #for value in eachValue:
-        #         #print(value)
-        #     self.size = self.size + 1
-        #     holder = current
-        #     current = Node(eachValue, self.head)
-        #     holder.set_next(current)
-        # self.argumentos=argumentos
     def getName(self):
         return self.name
-    # def get_head(self):
-    #     return self.head
+
     def get_objects(self):
         return self.listOfObjects
     def get_size(self):
@@ -94,10 +77,6 @@ def fill_levels(node,argumentos_del_leve):
     return node
 #inicio del juego
 
-#current = level_list = fill_levels(level_list,[["player",1,2,3,"false","algo.img", "Behaviour(1,1,30,false,false,true"],["object",1,2,4,"false","block.img", "Behaviour(0,0,0,false,false,false)"], ["object",1,2,6,"false","block.img", "Behaviour(0,0,0,false,false,false)"]])
-# beehaviour = Behaviour.Behaviour(10,0,1,False,False,False)
-# objeto = [Objects.Object(800,800,True,"venv/face.png",beehaviour),Objects.Object(100,10,True,"venv/face.png",beehaviour),Objects.Object(200,20,True,"venv/face.png",beehaviour)]
-# level = Level("Test 1",objeto)
 current = None
 class Console:
 
@@ -113,17 +92,7 @@ class Console:
         object_xl=object.get_x()
         object_yu = object.get_y()
         object_yd=object.get_y()+object.get_image().get_rect().size[1]
-        print("=============================CODE========================================")
-        print (player_xr >= object_xl and player_xl <= object_xr)
-        print (player_yd >= object_yu and player_yu <= object_yd)
-        # print("{} {}".format(player_xr, object_xl))
-        # print("P_xr-)_xl")
-        # print("{} {}".format(player_xl, object_xr))
-        # print("P_xl-)_xr")
-        # print("{} {}".format(player_yd, object_yu))
-        # print("P_yd-)_yu")
-        # print("{} {}".format(player_yu, object_yd))
-        # print("P_yu-)_yd")
+
         if (player_xr >= object_xl and player_xl <= object_xr) and (player_yd >= object_yu and player_yu <= object_yd):
 
             if player.get_y()>object.get_y() and player_xr > object_xl + 5 and player_xl<object_xr-5:
@@ -138,8 +107,6 @@ class Console:
                 return 1
 
         return -1
-       # print("size: ")
-        #print(current.get_value().get_objects()[0].get_image().get_rect().size[0])
 
     def collision(self,objects):
         player = "lechuga"
@@ -158,9 +125,6 @@ class Console:
 
 
     def add_sprites(self,current, all_sprites):
-
-        print("adding sprites to group")
-        print(len(current.get_value().get_objects()))
 
         for index in range(len(current.get_value().get_objects())):
             print((current.get_value().get_objects()[index].get_x()))
@@ -181,7 +145,7 @@ class Console:
 
 
         all_sprites=self.add_sprites(current, all_sprites)
-        all_sprites.add(platform)
+        #all_sprites.add(platform)
         #plats.add(platform)
         running = True
         while running:
