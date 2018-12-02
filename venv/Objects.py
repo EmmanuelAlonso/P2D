@@ -207,28 +207,22 @@ class Character(pygame.sprite.Sprite):
         if self.coldirection == 3 or self.coldirection == 2:
             if self.coldirection == 3:
                 self.onplat = True
+                if keystate[pygame.K_w]:
+                    self.rect.y -= 5
             if self.coldirection == 2:
+                self.speedy = 0
                 self.rect.y += 5
             self.coldirection = -1
-            if keystate[pygame.K_w]:
-                self.rect.y -= 5
             if self.onplat:
                 self.speedy = 0
                 self.canJump = True
 
-
-
-
-
-        # if self.coldirection == 1 or self.coldirection == 0:
-        #     self.speedx = 0
-        #     self.coldirection = -1
+        #if self.coldirection == 1 or self.coldirection == 0:
+        #    self.speedx = 0
+        #    self.coldirection = -1
 
         self.rect.x += self.speedx
         self.rect.y += self.speedy
-
-            
-            
 
 
 class Mobs(pygame.sprite.Sprite):
