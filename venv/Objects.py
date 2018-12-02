@@ -118,7 +118,7 @@ class Character(pygame.sprite.Sprite):
         self.behaviour = behaviour
         self.reflected = False
         self.totalMovement = 0
-        self.canJump = True
+        self.canJump = False
         self.onplat = False
 
     def get_type(self):
@@ -191,6 +191,7 @@ class Character(pygame.sprite.Sprite):
             if keystate[pygame.K_w] and self.canJump:
                 self.speedy = -15
                 self.canJump = False
+                self.onplat = False
             self.speedy += .5
             if self.speedy > self.get_behaviour().get_speed():
                 self.speedy = self.get_behaviour().get_speed()
@@ -204,14 +205,20 @@ class Character(pygame.sprite.Sprite):
                 self.speedy = 0
 
         if self.coldirection == 3 or self.coldirection == 2:
-            if not keystate[pygame.K_w]:
-                self.speedy = 0
+            if self.coldirection == 3:
+                self.onplat = True
             if self.coldirection == 2:
                 self.rect.y += 5
             self.coldirection = -1
-            if self.coldirection == 3:
+            if keystate[pygame.K_w]:
                 self.rect.y -= 5
+            if self.onplat:
+                self.speedy = 0
                 self.canJump = True
+
+
+
+
 
         # if self.coldirection == 1 or self.coldirection == 0:
         #     self.speedx = 0
