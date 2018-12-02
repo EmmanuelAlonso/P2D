@@ -114,7 +114,6 @@ class Character(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.centerx = x
         self.rect.bottom = y
-        self.rect = self.image.get_rect()
         self.behaviour = behaviour
         self.reflected = False
         self.totalMovement = 0
@@ -245,7 +244,6 @@ class Mobs(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.centerx = x
         self.rect.bottom = y
-        self.rect = self.image.get_rect()
         self.behaviour = behaviour
         self.reflected = False
         self.totalMovement = 0
