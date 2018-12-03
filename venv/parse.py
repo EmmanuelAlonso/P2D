@@ -236,11 +236,9 @@ def checkAttributes(type, listOfAttributes):
                 return False
             if isinstance(listOfAttributes[2], float) != True:
                 return False
-            if isinstance( listOfAttributes[3] , bool) != True:
+            if isinstance( listOfAttributes[3] , str) != True and (listOfAttributes[3] == 'LOOP' or listOfAttributes[3] == 'CONTINUOUS' or listOfAttributes[3] == 'DEFAULT'):
                 return False
             if isinstance( listOfAttributes[4] , bool) != True:
-                return False
-            if isinstance( listOfAttributes[5] , bool) != True:
                 return False
         else:
             return False
