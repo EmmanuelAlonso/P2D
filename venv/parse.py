@@ -6,11 +6,11 @@ import Objects as objects
 
 def createObject(type, attrs, objs):
     if(type == 'Object'):
-        return objects.Object(attrs[0], attrs[1], attrs[2], attrs[3], attrs[4])
+        return objects.Object(attrs[0], attrs[1],True,  attrs[2], attrs[3])
     elif (type == 'Player'):
-        return objects.Character(attrs[0], attrs[1], attrs[2], attrs[3], attrs[4])
+        return objects.Character(attrs[0], attrs[1],True, attrs[2], attrs[3])
     elif (type == 'Mobs'):
-        return objects.Mobs(attrs[0], attrs[1], attrs[2], attrs[3], attrs[4])
+        return objects.Mobs(attrs[0], attrs[1],True, attrs[2], attrs[3])
     elif (type == 'Level'):
         return console.Level(attrs[0], objs) # Len = 1 Behaviour is 6
 
@@ -204,14 +204,14 @@ def checkAttributes(type, listOfAttributes):
             #if isinstance( listOfAttributes[2] , bool) != True:
                 #return False
             print('Checking Player Icon')
-            if isinstance( listOfAttributes[3] , str) != True:
-                print(str(listOfAttributes[3].__class__.__name__))
+            if isinstance( listOfAttributes[2] , str) != True:
+                print(str(listOfAttributes[2].__class__.__name__))
                 print('icon failed')
                 return False
             print('Checking Player Behaviour')
-            print(str(listOfAttributes[4].__class__.__name__))
-            if (isinstance(listOfAttributes[4], behaviour.Behaviour) != True):
-                print(str(listOfAttributes[4].__class__.__name__))
+            print(str(listOfAttributes[3].__class__.__name__))
+            if (isinstance(listOfAttributes[3], behaviour.Behaviour) != True):
+                print(str(listOfAttributes[3].__class__.__name__))
                 print('Player Check Failed')
                 return False
         else:
