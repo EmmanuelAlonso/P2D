@@ -25,7 +25,12 @@ reserved = {
     'Mobs' : 'TYPENAME',
     'True' : 'BOOL',
     'False' : 'BOOL',
-    'end':'DELIMITER'
+    'end':'DELIMITER',
+}
+behaviourConsts = {
+    'LOOP':'BEHAVIORCONST',
+    'CONTINUOUS':'BEHAVIORCONST',
+    'DEFAULT':'BEHAVIORCONST'
 }
 
 t_ignore = r' '
@@ -136,7 +141,14 @@ def p_simpletypedeclar(p):
 
     if(not checkAttributes('Behaviour', p[3])):
         raise Exception('Invalid attributes for type Behaviour')
-    p[0] = behaviour.Behaviour(p[3][0], p[3][1], p[3][2], p[3][3], p[3][4], p[3][5])
+    x = p[3][3]
+    reflect = False
+    repeat = False
+    if x == 'LOOP':
+        reflect = True
+    if x == 'CONTINUOUS':
+        repeat = True
+    p[0] = behaviour.Behaviour(p[3][0], p[3][1], p[3][2], repeat, reflect, p[3][4])
 
 def p_list_attr(p):
     '''
@@ -229,14 +241,14 @@ def checkAttributes(type, listOfAttributes):
             return false
 
     if (type == 'Behaviour'):
-        if (len(listOfAttributes) == 6):
+        if (len(listOfAttributes) == 5):
             if isinstance(listOfAttributes[0], int) != True:
                 return False
             if isinstance(listOfAttributes[1], int) != True:
                 return False
             if isinstance(listOfAttributes[2], float) != True:
                 return False
-            if isinstance( listOfAttributes[3] , str) != True and (listOfAttributes[3] == 'LOOP' or listOfAttributes[3] == 'CONTINUOUS' or listOfAttributes[3] == 'DEFAULT'):
+            if isinstance( listOfAttributes[3] , str) != True or behaviourConsts.get(listOfAttributes[3]) != 'BEHAVIORCONST':
                 return False
             if isinstance( listOfAttributes[4] , bool) != True:
                 return False
