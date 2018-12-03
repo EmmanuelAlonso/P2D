@@ -192,7 +192,7 @@ def checkAttributes(type, listOfAttributes):
 
     if(type == 'Player' or type == 'Object' or type == 'Mobs') :
         print('Checking Player Len')
-        if (len(listOfAttributes) == 5):
+        if (len(listOfAttributes) == 4):
             print('Checking Player x')
             if isinstance( listOfAttributes[0] , int) != True :
                 print('x failed')
@@ -200,9 +200,9 @@ def checkAttributes(type, listOfAttributes):
             print('Checking Player y')
             if isinstance( listOfAttributes[1] , int) != True:
                 return False
-            print('Checking Player Dynamic')
-            if isinstance( listOfAttributes[2] , bool) != True:
-                return False
+            #print('Checking Player Dynamic')
+            #if isinstance( listOfAttributes[2] , bool) != True:
+                #return False
             print('Checking Player Icon')
             if isinstance( listOfAttributes[3] , str) != True:
                 print(str(listOfAttributes[3].__class__.__name__))
