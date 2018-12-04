@@ -126,16 +126,12 @@ class Console:
                 if (objects[index].get_type()=="object"):
                     side = self.collision_player_object(player, objects[index])
                     if(side == 0 and not hasR):
-                        player.get_coldirection()[0]=True
                         hasR=True
                     if (side == 1 and not hasL):
-                        player.get_coldirection()[1] = True
                         hasL = True
                     if (side == 2 and not hasU):
-                        player.get_coldirection()[2] = True
                         hasU = True
                     if (side == 3 and not hasD):
-                        player.get_coldirection()[3] = True
                         hasD = True
 
                 elif (objects[index].get_type() == "mob"):
@@ -144,6 +140,10 @@ class Console:
                 elif (objects[index].get_type() == "goal"):
                     if (self.collision_player_object(player, objects[index]) != -1):
                          self.LevelComplete = True
+            player.get_coldirection()[0] = hasR
+            player.get_coldirection()[1] = hasL
+            player.get_coldirection()[2] = hasU
+            player.get_coldirection()[3] = hasD
 
 
 

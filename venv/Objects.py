@@ -99,6 +99,105 @@ class Object(pygame.sprite.Sprite):
         if self.get_behaviour().get_repeat() and self.totalMovement == self.get_behaviour().get_y():
             self.totalMovement = 0
 
+class Goal(pygame.sprite.Sprite):
+
+    def __init__(self, x, y, dynamic, image, behaviour):
+        pygame.sprite.Sprite.__init__(self)
+        self.x = x
+        self.y = y
+        self.speedx = 0
+        self.speedy = 0
+        self.dynamic = dynamic
+        self.image_link = image
+        self.image = pygame.image.load(image)
+        self.rect = self.image.get_rect()
+        self.rect.centerx = x
+        self.rect.bottom = y
+        self.behaviour = behaviour
+        self.reflected = False
+        self.totalMovement = 0
+
+    def get_type(self):
+        return "goal"
+
+    def get_x(self):
+        return self.rect.x
+
+    def get_y(self):
+        return self.rect.y
+
+    def dynamic(self):
+        return self.dynamic
+
+    def get_image(self):
+        return self.image
+
+    def get_image_link(self):
+        return self.image_link
+
+    def get_behaviour(self):
+        return self.behaviour
+
+    def set_x(self, x):
+        self.x = self.rect.centerx
+
+    def set_y(self, y):
+        self.y = self.rect.bottom
+
+    def set_dynamic(self, dynamic):
+        self.dynamic = dynamic
+
+    def set_image(self, image):
+        self.image_link = image
+
+    def set_behaviour(self, behaviour):
+        self.behaviour = behaviour
+
+    def update(self):
+        # x movement
+        if not self.get_behaviour().get_x() == 0 and self.dynamic and not self.reflected:
+            self.rect.x += self.get_behaviour().get_speed()
+            self.totalMovement += self.get_behaviour().get_speed()
+            if self.get_behaviour().get_x() < self.totalMovement:
+                self.rect.x -= self.totalMovement - self.get_behaviour().get_x()
+                self.totalMovement = self.get_behaviour().get_x()
+                if self.behaviour.get_reflect():
+                    self.totalMovement = 0
+                    self.reflected = True
+        elif not self.get_behaviour().get_x() == 0 and self.dynamic and self.reflected:
+            self.rect.x -= self.get_behaviour().get_speed()
+            self.totalMovement += self.get_behaviour().get_speed()
+            if self.get_behaviour().get_x() < self.totalMovement:
+                self.rect.x += self.totalMovement - self.get_behaviour().get_x()
+                self.totalMovement = self.get_behaviour().get_x()
+                if self.get_behaviour().get_reflect():
+                    self.totalMovement = 0
+                    self.reflected = False
+        if self.get_behaviour().get_repeat() and self.totalMovement == self.get_behaviour().get_x():
+            self.totalMovement = 0
+
+        # y movement
+        if not self.get_behaviour().get_y() == 0 and self.dynamic and not self.reflected:
+            self.rect.y += self.get_behaviour().get_speed()
+            self.totalMovement += self.get_behaviour().get_speed()
+            if self.get_behaviour().get_y() < self.totalMovement:
+                self.rect.y -= self.totalMovement - self.get_behaviour().get_y()
+                self.totalMovement = self.get_behaviour().get_y()
+                if self.get_behaviour().get_reflect():
+                    self.totalMovement = 0
+                    self.reflected = True
+        elif not self.get_behaviour().get_y() == 0 and self.dynamic and self.reflected:
+            self.rect.y -= self.get_behaviour().get_speed()
+            self.totalMovement += self.get_behaviour().get_speed()
+            if self.get_behaviour().get_y() < self.totalMovement:
+                self.rect.y += self.totalMovement - self.get_behaviour().get_y()
+                self.totalMovement = self.get_behaviour().get_y()
+                if self.get_behaviour().get_reflect():
+                    self.totalMovement = 0
+                    self.reflected = False
+        if self.get_behaviour().get_repeat() and self.totalMovement == self.get_behaviour().get_y():
+            self.totalMovement = 0
+
 
 
 class Character(pygame.sprite.Sprite):
@@ -108,7 +207,7 @@ class Character(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.x = x
         self.y = y
-        self.coldirection = -1
+        self.coldirection = [False, False, False, False]
         self.speedx = 0
         self.speedy = 0
         self.dynamic = dynamic
@@ -206,12 +305,16 @@ class Character(pygame.sprite.Sprite):
             if (not keystate[pygame.K_w] and not keystate[pygame.K_s]) or (keystate[pygame.K_w] and keystate[pygame.K_s]):
                 self.speedy = 0
 
-        if self.coldirection == 3 or self.coldirection == 2:
-            if self.coldirection == 3:
+        if self.coldirection[3] or self.coldirection[2]:
+            if self.coldirection[3]:
+                self.coldirection[2] = False
                 self.onplat = True
                 if keystate[pygame.K_w]:
                     self.rect.y -= 5
-            if self.coldirection == 2:
+                    self.speedy = -15
+                    self.onplat = False
+                    self.coldirection[3] = False
+            if self.coldirection[2]:
                 self.speedy = 0
                 self.onplat = False
                 self.rect.y += 5
@@ -219,13 +322,10 @@ class Character(pygame.sprite.Sprite):
                 self.speedy = 0
                 self.canJump = True
 
-        if self.coldirection == 1 and keystate[pygame.K_a]:
+        if (self.coldirection[1] and keystate[pygame.K_a]) or (self.coldirection[0] and keystate[pygame.K_d]) :
             self.speedx = 0
 
-        if self.coldirection == 0 and keystate[pygame.K_d]:
-            self.speedx = 0
-
-        if self.coldirection == -1:
+        if not self.coldirection[0] and not self.coldirection[1] and not self.coldirection[1] and not self.coldirection[1]:
             self.canJump = False
             self.onplat = False
 
@@ -233,7 +333,7 @@ class Character(pygame.sprite.Sprite):
         self.rect.y += self.speedy
 
 
-class Mob(pygame.sprite.Sprite):
+class Mobs(pygame.sprite.Sprite):
     def __init__(self, x, y, dynamic, image, behaviour):
         pygame.sprite.Sprite.__init__(self)
         self.x = x
