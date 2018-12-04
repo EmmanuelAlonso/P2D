@@ -79,7 +79,8 @@ def fill_levels(node,argumentos_del_leve):
 
 current = None
 class Console:
-
+    gameOver = False
+    LevelComplete = False
     def __init__(self):
         pass
 
@@ -116,12 +117,35 @@ class Console:
                player = objects[index]
         print(player)
         if player != "lechuga":
+            hasL = False
+            hasR = False
+            hasU = False
+            hasD = False
             for index in range(len(objects)):
-                if(player != objects[index]  ):
-                    player.set_coldirection(self.collision_player_object(player, objects[index]))
-                    if not self.collision_player_object(player, objects[index]) == -1:
-                        break
-        return -1
+
+                if (objects[index].get_type()=="object"):
+                    side = self.collision_player_object(player, objects[index])
+                    if(side == 0 and not hasR):
+                        player.get_coldirection()[0]=True
+                        hasR=True
+                    if (side == 1 and not hasL):
+                        player.get_coldirection()[1] = True
+                        hasL = True
+                    if (side == 2 and not hasU):
+                        player.get_coldirection()[2] = True
+                        hasU = True
+                    if (side == 3 and not hasD):
+                        player.get_coldirection()[3] = True
+                        hasD = True
+
+                elif (objects[index].get_type() == "mob"):
+                    if(self.collision_player_object(player, objects[index])!=-1):
+                        self.gameOver = True
+                elif (objects[index].get_type() == "goal"):
+                    if (self.collision_player_object(player, objects[index]) != -1):
+                         self.LevelComplete = True
+
+
 
 
 
@@ -158,7 +182,9 @@ class Console:
             all_sprites.update()
             screen.fill(BLUE)
             all_sprites.draw(screen)
-            print (self.collision(current.get_value().get_objects()))
+            self.collision(current.get_value().get_objects())
+            print(self.LevelComplete)
+            print(self.gameOver)
 
             pygame.display.flip()
 
