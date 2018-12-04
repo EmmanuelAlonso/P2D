@@ -233,7 +233,7 @@ class Character(pygame.sprite.Sprite):
         self.rect.y += self.speedy
 
 
-class Mobs(pygame.sprite.Sprite):
+class Mob(pygame.sprite.Sprite):
     def __init__(self, x, y, dynamic, image, behaviour):
         pygame.sprite.Sprite.__init__(self)
         self.x = x
