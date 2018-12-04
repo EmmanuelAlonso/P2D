@@ -67,7 +67,7 @@ class Level:
             obj.update()
 
 
-self.first = "empty"
+first = "empty"
 current = "empty"
 def fill_levels(node,argumentos_del_leve):
     current = node
