@@ -80,6 +80,7 @@ def p_main(p):
         while(i<len(p[1])):
             current.set_next(console.Node(p[1][i], None))
             current = current.get_next()
+            i+=1
 
     console.current = head
     console.Console().run()

@@ -71,18 +71,6 @@ class Level:
 
 first = "empty"
 current = "empty"
-def fill_levels(node,argumentos_del_leve):
-    current = node
-
-    #print(len(argumentos_del_leve))
-    for index in range(len(argumentos_del_leve)):
-        holder = current
-        current = Node(Level((" level "+str(index)), argumentos_del_leve[index]), current)
-        holder.set_next(current)
-
-    first = node
-    current = first.get_next()
-    return node
 #inicio del juego
 
 
@@ -103,17 +91,15 @@ class Console:
         object_yd=object.get_y()+object.get_image().get_rect().size[1]
 
         if (player_xr >= object_xl and player_xl <= object_xr) and (player_yd >= object_yu and player_yu <= object_yd):
-
+            print("colision")
             if player.get_y()>object.get_y() and player_xr > object_xl + 5 and player_xl<object_xr-5:
                 return 2
             if player.get_y()<object.get_y()  and player_xr > object_xl + 5 and player_xl<object_xr-5:
                 player.rect.y = object.rect.y - player.rect.size[1]
                 return 3
-            if (player.get_x()<object.get_x()):
-                print ("0")
+            if player.get_x()<object.get_x():
                 return 0
             if player.get_x()>object.get_x() :
-                print("1")
                 return 1
 
         return -1
@@ -124,12 +110,11 @@ class Console:
             if objects[index].get_type()=="character":
                player = objects[index]
         if player != "lechuga":
-            hasL = False
+            hasL = True
             hasR = False
             hasU = False
             hasD = False
             for index in range(len(objects)):
-
                 if (objects[index].get_type()=="object"):
 
                     side = self.collision_player_object(player, objects[index])
@@ -170,13 +155,20 @@ class Console:
             all_sprites.empty()
             all_sprites = self.add_sprites(current, all_sprites)
         else:
-            print("Game Completed")
+            all_sprites.empty()
+            screen.fill(WHITE)
+            font = pygame.font.Font(None, 36)
+            text = font.render("Game Completed", True, BLACK)
+            text_rect = text.get_rect()
+            text_x = screen.get_width() / 2 - text_rect.width / 2
+            text_y = screen.get_height() / 2 - text_rect.height / 2
+            screen.blit(text, [text_x, text_y])
+            all_sprites = self.update_level(current, all_sprites)
         return all_sprites
 
     def add_sprites(self,current, all_sprites):
 
         for index in range(len(current.get_value().get_objects())):
-            print((current.get_value().get_objects()[index].get_x()))
             all_sprites.add(current.get_value().get_objects()[index])
 
         return all_sprites
@@ -207,16 +199,9 @@ class Console:
             all_sprites.draw(screen)
             self.collision(current.get_value().get_objects())
             if self.LevelComplete:
+                self.update_level(current,all_sprites)
                 self.LevelComplete = False
-                all_sprites.empty()
-                screen.fill(WHITE)
-                font = pygame.font.Font(None, 36)
-                text = font.render("Level Completed", True, BLACK)
-                text_rect = text.get_rect()
-                text_x = screen.get_width() / 2 - text_rect.width / 2
-                text_y = screen.get_height() / 2 - text_rect.height / 2
-                screen.blit(text, [text_x, text_y])
-                all_sprites = self.update_level(current,all_sprites)
+
 
             if self.gameOver:
                 all_sprites.empty()
