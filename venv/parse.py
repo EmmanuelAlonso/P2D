@@ -7,6 +7,8 @@ import Objects as objects
 def createObject(type, attrs, objs):
     if(type == 'Object'):
         return objects.Object(attrs[0], attrs[1],True,  attrs[2], attrs[3])
+    if (type == 'Goal'):
+        return objects.Goal(attrs[0], attrs[1], True, attrs[2], attrs[3])
     elif (type == 'Player'):
         return objects.Character(attrs[0], attrs[1],True, attrs[2], attrs[3])
     elif (type == 'Mob'):
@@ -23,6 +25,7 @@ reserved = {
     'Level':'LEVEL',
     'Behaviour' : 'TYPENAME',
     'Mob' : 'TYPENAME',
+    'Goal' : 'TYPENAME',
     'True' : 'BOOL',
     'False' : 'BOOL',
     'end':'DELIMITER',
@@ -190,7 +193,7 @@ def checkAttributes(type, listOfAttributes):
     print('Checking.../n')
     print(type + ' Found...')
 
-    if(type == 'Player' or type == 'Object' or type == 'Mob') :
+    if(type == 'Player' or type == 'Object' or type == 'Mob' or type == 'Goal') :
         print('Checking Player Len')
         if (len(listOfAttributes) == 4):
             print('Checking Player x')
