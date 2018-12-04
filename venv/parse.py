@@ -9,7 +9,7 @@ def createObject(type, attrs, objs):
         return objects.Object(attrs[0], attrs[1],True,  attrs[2], attrs[3])
     elif (type == 'Player'):
         return objects.Character(attrs[0], attrs[1],True, attrs[2], attrs[3])
-    elif (type == 'Mobs'):
+    elif (type == 'Mob'):
         return objects.Mobs(attrs[0], attrs[1],True, attrs[2], attrs[3])
     elif (type == 'Level'):
         return console.Level(attrs[0], objs) # Len = 1 Behaviour is 6
@@ -22,7 +22,7 @@ reserved = {
     'Object':'TYPENAME',
     'Level':'LEVEL',
     'Behaviour' : 'TYPENAME',
-    'Mobs' : 'TYPENAME',
+    'Mob' : 'TYPENAME',
     'True' : 'BOOL',
     'False' : 'BOOL',
     'end':'DELIMITER',
@@ -190,7 +190,7 @@ def checkAttributes(type, listOfAttributes):
     print('Checking.../n')
     print(type + ' Found...')
 
-    if(type == 'Player' or type == 'Object' or type == 'Mobs') :
+    if(type == 'Player' or type == 'Object' or type == 'Mob') :
         print('Checking Player Len')
         if (len(listOfAttributes) == 4):
             print('Checking Player x')
