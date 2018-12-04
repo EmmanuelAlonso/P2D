@@ -67,17 +67,23 @@ class Level:
             obj.update()
 
 
+first = "empty"
+current = "empty"
 def fill_levels(node,argumentos_del_leve):
     current = node
+
     #print(len(argumentos_del_leve))
     for index in range(len(argumentos_del_leve)):
         holder = current
         current = Node(Level((" level "+str(index)), argumentos_del_leve[index]), current)
         holder.set_next(current)
+
+    first = node
+    current = first.get_next()
     return node
 #inicio del juego
 
-current = None
+
 class Console:
     gameOver = False
     LevelComplete = False
@@ -145,9 +151,17 @@ class Console:
             player.get_coldirection()[2] = hasU
             player.get_coldirection()[3] = hasD
 
+        # moverse entre los levels
 
+    def update_level(self, current ,all_sprites):
 
-
+        if current.get_next() != first:
+            current = current.get_next()
+            all_sprites.empty()
+            all_sprites = self.add_sprites(current, all_sprites)
+        else:
+            print("Game Completed")
+        return all_sprites
 
     def add_sprites(self,current, all_sprites):
 
@@ -183,20 +197,13 @@ class Console:
             screen.fill(BLUE)
             all_sprites.draw(screen)
             self.collision(current.get_value().get_objects())
-            print(self.LevelComplete)
-            print(self.gameOver)
+            if self.LevelComplete:
+                print(self.LevelComplete)
+                all_sprites = self.update_level(current,all_sprites)
+            if self.gameOver:
+                print(self.gameOver)
+                running=False
 
             pygame.display.flip()
 
         pygame.quit()
-        #funciones para modificar el display de los levels
-
-        #dibuja el level
-
-
-
-    #moverse entre los levels
-    def update_level(level_list):
-         pass
-
-
