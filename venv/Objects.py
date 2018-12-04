@@ -290,7 +290,7 @@ class Character(pygame.sprite.Sprite):
         if not self.get_behaviour().get_y() == 0 and self.get_behaviour().get_gravity():
            #self.speedy = 0
             if keystate[pygame.K_w] and self.canJump:
-                self.speedy = -15
+                self.speedy = -12
                 self.canJump = False
                 self.onplat = False
             self.speedy += .5
@@ -311,7 +311,7 @@ class Character(pygame.sprite.Sprite):
                 self.onplat = True
                 if keystate[pygame.K_w]:
                     self.rect.y -= 5
-                    self.speedy = -15
+                    self.speedy = -12
                     self.onplat = False
                     self.coldirection[3] = False
             if self.coldirection[2]:
@@ -338,7 +338,7 @@ class Mobs(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.x = x
         self.y = y
-        self.coldirection = -1
+        self.coldirection = [False, False, False, False]
         self.speedx = 0
         self.speedy = 0
         self.dynamic = dynamic
@@ -376,9 +376,6 @@ class Mobs(pygame.sprite.Sprite):
 
     def get_behaviour(self):
         return self.behaviour
-
-    def set_coldirection(self, dir):
-        self.coldirection = dir
 
     def set_x(self, x):
         self.x = self.rect.centerx
@@ -437,23 +434,29 @@ class Mobs(pygame.sprite.Sprite):
                         self.reflected = False
                 self.totalMovement = 0
 
-            if self.coldirection == 3 or self.coldirection == 2:
-                self.speedy = 0
-                if self.coldirection == 3:
+            if not self.get_behaviour().get_y() == 0 and self.get_behaviour().get_gravity():
+                # self.speedy = 0
+                self.speedy += .5
+                if self.speedy > 10:
+                    self.speedy = 10
+
+            if self.coldirection[3] or self.coldirection[2]:
+                if self.coldirection[3]:
+                    self.coldirection[2] = False
                     self.onplat = True
-                if self.coldirection == 2:
+                if self.coldirection[2]:
+                    self.speedy = 0
                     self.onplat = False
                     self.rect.y += 5
                 if self.onplat:
                     self.speedy = 0
-                    self.canJump = True
 
-            if self.coldirection == 1 and self.speedx < 0:
+            if (self.coldirection[1] and keystate[pygame.K_a]) or (self.coldirection[0] and keystate[pygame.K_d]):
                 self.speedx = 0
 
-            if self.coldirection == 0 and self.speedx > 0:
-                self.speedx = 0
-
-            if self.coldirection == -1:
-                self.canJump = False
+            if not self.coldirection[0] and not self.coldirection[1] and not self.coldirection[1] and not \
+            self.coldirection[1]:
                 self.onplat = False
+
+            self.rect.x += self.speedx
+            self.rect.y += self.speedy
