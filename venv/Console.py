@@ -91,7 +91,6 @@ class Console:
         object_yd=object.get_y()+object.get_image().get_rect().size[1]
 
         if (player_xr >= object_xl and player_xl <= object_xr) and (player_yd >= object_yu and player_yu <= object_yd):
-            print("colision")
             if player.get_y()>object.get_y() and player_xr > object_xl + 5 and player_xl<object_xr-5:
                 return 2
             if player.get_y()<object.get_y()  and player_xr > object_xl + 5 and player_xl<object_xr-5:
@@ -110,7 +109,7 @@ class Console:
             if objects[index].get_type()=="character":
                player = objects[index]
         if player != "lechuga":
-            hasL = True
+            hasL = False
             hasR = False
             hasU = False
             hasD = False
@@ -140,7 +139,11 @@ class Console:
                         self.gameOver = True
                 elif (objects[index].get_type() == "goal"):
                     if (self.collision_player_object(player, objects[index]) != -1):
-                         self.LevelComplete = True
+                        player.get_coldirection()[0] = False
+                        player.get_coldirection()[1] = False
+                        player.get_coldirection()[2] = False
+                        player.get_coldirection()[3] = False
+                        self.LevelComplete = True
             player.get_coldirection()[0] = hasR
             player.get_coldirection()[1] = hasL
             player.get_coldirection()[2] = hasU
@@ -154,16 +157,7 @@ class Console:
             current = current.get_next()
             all_sprites.empty()
             all_sprites = self.add_sprites(current, all_sprites)
-        else:
-            all_sprites.empty()
-            screen.fill(WHITE)
-            font = pygame.font.Font(None, 36)
-            text = font.render("Game Completed", True, BLACK)
-            text_rect = text.get_rect()
-            text_x = screen.get_width() / 2 - text_rect.width / 2
-            text_y = screen.get_height() / 2 - text_rect.height / 2
-            screen.blit(text, [text_x, text_y])
-            all_sprites = self.update_level(current, all_sprites)
+
         return all_sprites
 
     def add_sprites(self,current, all_sprites):
@@ -199,7 +193,18 @@ class Console:
             all_sprites.draw(screen)
             self.collision(current.get_value().get_objects())
             if self.LevelComplete:
+
                 self.update_level(current,all_sprites)
+                if current.get_next()== None:
+                    all_sprites.empty()
+                    screen.fill(WHITE)
+                    font = pygame.font.Font(None, 36)
+                    text = font.render("Game Completed", True, BLACK)
+                    text_rect = text.get_rect()
+                    text_x = screen.get_width() / 2 - text_rect.width / 2
+                    text_y = screen.get_height() / 2 - text_rect.height / 2
+                    screen.blit(text, [text_x, text_y])
+                    all_sprites = self.update_level( current, all_sprites)
                 self.LevelComplete = False
 
 
