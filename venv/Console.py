@@ -9,6 +9,8 @@ FPS = 60
 
 BLUE = (60, 60, 120)
 GREEN = (0, 255, 0)
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
 
 size = 0
 
@@ -78,7 +80,7 @@ def fill_levels(node,argumentos_del_leve):
         current = Node(Level((" level "+str(index)), argumentos_del_leve[index]), current)
         holder.set_next(current)
 
-    self.first = node
+    first = node
     current = first.get_next()
     return node
 #inicio del juego
@@ -121,7 +123,6 @@ class Console:
         for index in range(len(objects)):
             if objects[index].get_type()=="character":
                player = objects[index]
-        print(player)
         if player != "lechuga":
             hasL = False
             hasR = False
@@ -130,6 +131,7 @@ class Console:
             for index in range(len(objects)):
 
                 if (objects[index].get_type()=="object"):
+
                     side = self.collision_player_object(player, objects[index])
                     if(side == 0 and not hasR):
                         hasR=True
@@ -139,6 +141,14 @@ class Console:
                         hasU = True
                     if (side == 3 and not hasD):
                         hasD = True
+                    if player.get_y() > HEIGHT:
+                        self.gameOver = True
+                    if player.get_y() <= 0:
+                        hasU = True
+                    if player.get_x()+player.get_image().get_rect().size[0] >= WIDTH:
+                        hasR = True
+                    if player.get_x() <= 0:
+                        hasL = True
 
                 elif (objects[index].get_type() == "mob"):
                     if(self.collision_player_object(player, objects[index])!=-1):
@@ -155,7 +165,7 @@ class Console:
 
     def update_level(self, current ,all_sprites):
 
-        if current.get_next() != first:
+        if current.get_next() != None:
             current = current.get_next()
             all_sprites.empty()
             all_sprites = self.add_sprites(current, all_sprites)
@@ -172,6 +182,7 @@ class Console:
         return all_sprites
 
     def run(self):
+        pygame.mixer.init()
         pygame.init()
         pygame.mixer.init()
         screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -179,15 +190,13 @@ class Console:
         clock = pygame.time.Clock()
 
         all_sprites = pygame.sprite.Group()
-        plats = pygame.sprite.Group()
-        platform = Platform()
-
 
         all_sprites=self.add_sprites(current, all_sprites)
         #all_sprites.add(platform)
         #plats.add(platform)
         running = True
         while running:
+
             clock.tick(FPS)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -198,11 +207,26 @@ class Console:
             all_sprites.draw(screen)
             self.collision(current.get_value().get_objects())
             if self.LevelComplete:
-                print(self.LevelComplete)
+                self.LevelComplete = False
+                all_sprites.empty()
+                screen.fill(WHITE)
+                font = pygame.font.Font(None, 36)
+                text = font.render("Level Completed", True, BLACK)
+                text_rect = text.get_rect()
+                text_x = screen.get_width() / 2 - text_rect.width / 2
+                text_y = screen.get_height() / 2 - text_rect.height / 2
+                screen.blit(text, [text_x, text_y])
                 all_sprites = self.update_level(current,all_sprites)
+
             if self.gameOver:
-                print(self.gameOver)
-                running=False
+                all_sprites.empty()
+                screen.fill(BLACK)
+                font = pygame.font.Font(None, 36)
+                text = font.render("Game Over", True, WHITE)
+                text_rect = text.get_rect()
+                text_x = screen.get_width() / 2 - text_rect.width / 2
+                text_y = screen.get_height() / 2 - text_rect.height / 2
+                screen.blit(text, [text_x, text_y])
 
             pygame.display.flip()
 

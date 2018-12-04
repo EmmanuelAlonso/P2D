@@ -13,19 +13,3 @@ Level(Hola):
          Object(590, 600, longplat.png, Behaviour(0,0,0.0, DEFAULT, False))
          Goal(755, 575, coin.png, Behaviour(0,0,0.0, DEFAULT, False))
          end
-Level(hello):
-         Player(60 , 525,face.png, Behaviour(5,5,5.0,DEFAULT, True))
-         Object(0, 600, floor.png, Behaviour(0,0,0.0, DEFAULT, False))
-         Object(420, 600, wall.png, Behaviour(0,0,0.0, DEFAULT, False))
-         Object(200, 300, redplat.png, Behaviour(0,0,0.0, DEFAULT, False))
-         Object(45, 80, purplat.png, Behaviour(0,120,2.0, LOOP, False))
-         Object(200, 120, longplat.png, Behaviour(0,0,0.0, DEFAULT, False))
-         Object(420, 145, longplat.png, Behaviour(0,0,0.0, DEFAULT, False))
-         Object(755, 600, grplat.png, Behaviour(0,0,0.0, DEFAULT, False))
-         Object(495, 400, wall.png, Behaviour(0,0,0.0, DEFAULT, False))
-         Object(1000, 510, floor.png, Behaviour(0,0,0.0, DEFAULT, False))
-         Mob(615, 435, enemy.png, Behaviour(150,20,2.0, LOOP, True))
-         Mob(615, 420, enemy.png, Behaviour(150,20,2.0, LOOP, True))
-         Object(590, 600, longplat.png, Behaviour(0,0,0.0, DEFAULT, False))
-         Goal(755, 575, coin.png, Behaviour(0,0,0.0, DEFAULT, False))
-    end
