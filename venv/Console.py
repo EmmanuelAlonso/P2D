@@ -67,7 +67,7 @@ class Level:
             obj.update()
 
 
-first = "empty"
+self.first = "empty"
 current = "empty"
 def fill_levels(node,argumentos_del_leve):
     current = node
@@ -78,7 +78,7 @@ def fill_levels(node,argumentos_del_leve):
         current = Node(Level((" level "+str(index)), argumentos_del_leve[index]), current)
         holder.set_next(current)
 
-    first = node
+    self.first = node
     current = first.get_next()
     return node
 #inicio del juego
