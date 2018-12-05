@@ -2,9 +2,12 @@
 
 This project is a programming language called P2D, which stands for platform 2D and is used to create simple 2D video games.
 
+
 Reserved: Level, Player, Mob, Object, Behaviour, Goal
 
 Tokens: TYPENAME, LPAREN, RPAREN, COMMA, INT, FLOAT, DELIMITER, ID, DOUBLEPOINT, WHITESPACE, BOOL
+
+
 
 Grammar Rules:
 P2D : levellist
@@ -33,10 +36,13 @@ attr : simpletypedeclar
                 | INT 
                 | ID
                 
+                
+                
 Guide:
 
 The language consists of declaring levels, and within those levels you declare all of the game objects that will be displayed in the level.
 To finish declaring the level with all its objects, type "end" which is the delimiter.
+
 
 There are four types of objects in the language:
 1. Player:
@@ -52,6 +58,7 @@ There are four types of objects in the language:
     This represents the movement behavior of other objects to which it is assigned as an attribute. All preassigned movement and
     behaviors are specified with this type.
 
+
 Each of these objects have to be declared inside a level and their attributes must be specified as such: Typename(atrr1, atrr2,...)
 These attributes can be strings, integers, True or False, floats, or other TypeDeclarations of objects.
 
@@ -62,6 +69,8 @@ The attributes for each object are:
 4. Goal(xPosition(integer), yPosition(integer), imagePath(String), Behaviour(TypeDeclaration))
 5. Behaviour(xMovement(integer), yMovement(integer), Speed(float), MovementCharacteristic(LOOP, CONTINUOUS, or DEFAULT), Gravity(boolean))
 6. Level(Name(String))
+
+
 
 Example Code:
 Level(Classic):
