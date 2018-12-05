@@ -112,5 +112,5 @@ end
 
 HOW TO RUN:
 
-To run your code, write it in a text file and when you run the parse python script, write the name of the file(if in same directory)
+To run your code, write it in a text file and when you run the parse.py python script, write the name of the file(if in same directory)
 or the path to the file.
