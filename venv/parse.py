@@ -82,8 +82,9 @@ def p_main(p):
             current = current.get_next()
             i+=1
 
-    console.current = head
-    console.Console().run()
+    console2 = console.Console()
+    console2.set_current(head)
+    console2.run()
 
 def p_levellist(p):
     '''

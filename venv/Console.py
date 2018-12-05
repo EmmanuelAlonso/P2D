@@ -42,14 +42,6 @@ class Frame:
         screen = pygame.display.set_mode((width, height))
         return screen
 
-class Platform(pygame.sprite.Sprite):
-    def __init__(self):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("platform.png")
-        self.rect = self.image.get_rect()
-        self.rect.centerx = WIDTH / 2
-        self.rect.bottom = 4*HEIGHT / 5
-
 #class for storange levels
 class Level:
 
@@ -69,7 +61,7 @@ class Level:
             obj.update()
 
 
-first = "empty"
+
 current = "empty"
 #inicio del juego
 
@@ -77,9 +69,13 @@ current = "empty"
 class Console:
     gameOver = False
     LevelComplete = False
+    gameCompleted = False
+    current = "void"
+
     def __init__(self):
         pass
-
+    def set_current(self, current):
+        self.current = current
     def collision_player_object(self,player,object):
         player_xr=player.get_x()+player.get_image().get_rect().size[0]
         player_xl=player.get_x()
@@ -139,10 +135,8 @@ class Console:
                         self.gameOver = True
                 elif (objects[index].get_type() == "goal"):
                     if (self.collision_player_object(player, objects[index]) != -1):
-                        player.get_coldirection()[0] = False
-                        player.get_coldirection()[1] = False
-                        player.get_coldirection()[2] = False
-                        player.get_coldirection()[3] = False
+                        print ("completed")
+
                         self.LevelComplete = True
             player.get_coldirection()[0] = hasR
             player.get_coldirection()[1] = hasL
@@ -151,35 +145,39 @@ class Console:
 
         # moverse entre los levels
 
-    def update_level(self, current ,all_sprites):
 
-        if current.get_next() != None:
-            current = current.get_next()
-            all_sprites.empty()
-            all_sprites = self.add_sprites(current, all_sprites)
 
-        return all_sprites
-
-    def add_sprites(self,current, all_sprites):
+    def add_sprites(self, current,all_sprites):
 
         for index in range(len(current.get_value().get_objects())):
             all_sprites.add(current.get_value().get_objects()[index])
 
         return all_sprites
 
+    def update_level(self,current ,all_sprites):
+        current2 = current.get_next()
+        if  current2 == None:
+            self.gameCompleted =True
+        else:
+            current =current2
+            print(current)
+            all_sprites.empty()
+            all_sprites = self.add_sprites(current, pygame.sprite.Group())
+
+        return (all_sprites,current)
+
     def run(self):
         pygame.mixer.init()
         pygame.init()
         pygame.mixer.init()
         screen = pygame.display.set_mode((WIDTH, HEIGHT))
-        pygame.display.set_caption("Moving Test")
+        pygame.display.set_caption("P2D Game")
         clock = pygame.time.Clock()
 
         all_sprites = pygame.sprite.Group()
 
-        all_sprites=self.add_sprites(current, all_sprites)
-        #all_sprites.add(platform)
-        #plats.add(platform)
+        self.add_sprites(self.current, all_sprites)
+
         running = True
         while running:
 
@@ -191,11 +189,12 @@ class Console:
             all_sprites.update()
             screen.fill(BLUE)
             all_sprites.draw(screen)
-            self.collision(current.get_value().get_objects())
+            self.collision(self.current.get_value().get_objects())
             if self.LevelComplete:
-
-                self.update_level(current,all_sprites)
-                if current.get_next()== None:
+                updates_valuess=self.update_level(self.current,all_sprites)
+                all_sprites=updates_valuess[0]
+                self.current=updates_valuess[1]
+                if self.gameCompleted:
                     all_sprites.empty()
                     screen.fill(WHITE)
                     font = pygame.font.Font(None, 36)
@@ -204,7 +203,8 @@ class Console:
                     text_x = screen.get_width() / 2 - text_rect.width / 2
                     text_y = screen.get_height() / 2 - text_rect.height / 2
                     screen.blit(text, [text_x, text_y])
-                    all_sprites = self.update_level( current, all_sprites)
+                    all_sprites = self.update_level( self.current,all_sprites)
+                    running = False
                 self.LevelComplete = False
 
 
