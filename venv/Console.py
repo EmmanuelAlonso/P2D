@@ -101,6 +101,7 @@ class Console:
 
     def collision(self,objects):
         player = "lechuga"
+        mob = "tomate"
         for index in range(len(objects)):
             if objects[index].get_type()=="character":
                player = objects[index]
@@ -142,7 +143,30 @@ class Console:
             player.get_coldirection()[1] = hasL
             player.get_coldirection()[2] = hasU
             player.get_coldirection()[3] = hasD
+        for index in range(len(objects)):
+            if objects[index].get_type() == "mob":
+                mob = objects[index]
+            if mob != "tomate":
+                hasL = False
+                hasR = False
+                hasU = False
+                hasD = False
+                for ind in range(len(objects)):
+                    if (objects[ind].get_type() == "object"):
 
+                        side = self.collision_player_object(mob, objects[ind])
+                        if (side == 0 and not hasR):
+                            hasR = True
+                        if (side == 1 and not hasL):
+                            hasL = True
+                        if (side == 2 and not hasU):
+                            hasU = True
+                        if (side == 3 and not hasD):
+                            hasD = True
+                mob.get_coldirection()[0] = hasR
+                mob.get_coldirection()[1] = hasL
+                mob.get_coldirection()[2] = hasU
+                mob.get_coldirection()[3] = hasD
         # moverse entre los levels
 
 

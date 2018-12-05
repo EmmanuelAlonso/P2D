@@ -415,48 +415,52 @@ class Mobs(pygame.sprite.Sprite):
         if self.get_behaviour().get_repeat() and self.totalMovement == self.get_behaviour().get_x():
             self.totalMovement = 0
 
-            # y movement
-            if not self.get_behaviour().get_y() == 0 and self.dynamic and not self.reflected:
-                self.rect.y += self.get_behaviour().get_speed()
-                self.totalMovement += self.get_behaviour().get_speed()
-                if self.get_behaviour().get_y() < self.totalMovement:
-                    self.rect.y -= self.totalMovement - self.get_behaviour().get_y()
-                    self.totalMovement = self.get_behaviour().get_y()
-                    if self.get_behaviour().get_reflect():
-                        self.reflected = True
-            elif not self.get_behaviour().get_y() == 0 and self.dynamic and self.reflected:
-                self.rect.y -= self.get_behaviour().get_speed()
-                self.totalMovement += self.get_behaviour().get_speed()
-                if self.get_behaviour().get_y() < self.totalMovement:
-                    self.rect.y += self.totalMovement - self.get_behaviour().get_y()
-                    self.totalMovement = self.get_behaviour().get_y()
-                    if self.get_behaviour().get_reflect():
-                        self.reflected = False
-                self.totalMovement = 0
+        # y movement through no gravity
+        if not self.get_behaviour().get_y() == 0 and self.dynamic and not self.reflected and not \
+                self.get_behaviour().get_gravity():
+            self.rect.y += self.get_behaviour().get_speed()
+            self.totalMovement += self.get_behaviour().get_speed()
+            if self.get_behaviour().get_y() < self.totalMovement:
+                self.rect.y -= self.totalMovement - self.get_behaviour().get_y()
+                self.totalMovement = self.get_behaviour().get_y()
+                if self.get_behaviour().get_reflect():
+                    self.totalMovement = 0
+                    self.reflected = True
+        elif not self.get_behaviour().get_y() == 0 and self.dynamic and self.reflected and not \
+                self.get_behaviour().get_gravity():
+            self.rect.y -= self.get_behaviour().get_speed()
+            self.totalMovement += self.get_behaviour().get_speed()
+            if self.get_behaviour().get_y() < self.totalMovement:
+                self.rect.y += self.totalMovement - self.get_behaviour().get_y()
+                self.totalMovement = self.get_behaviour().get_y()
+                if self.get_behaviour().get_reflect():
+                    self.totalMovement = 0
+                    self.reflected = False
+        if self.get_behaviour().get_repeat() and self.totalMovement == self.get_behaviour().get_y():
+            self.totalMovement = 0
+        #y movement through gravity
+        if not self.get_behaviour().get_y() == 0 and self.get_behaviour().get_gravity() and not self.coldirection[3]:
+            # self.speedy = 0
+            self.speedy += .5
+            if self.speedy > 10:
+                self.speedy = 10
 
-            if not self.get_behaviour().get_y() == 0 and self.get_behaviour().get_gravity():
-                # self.speedy = 0
-                self.speedy += .5
-                if self.speedy > 10:
-                    self.speedy = 10
+        if self.coldirection[3] or self.coldirection[2]:
+            if self.coldirection[3]:
+                self.coldirection[2] = False
+                self.onplat = True
+            if self.onplat:
+                self.speedy = 0
+        if not self.coldirection[3]:
+            self.onplat = False
 
-            if self.coldirection[3] or self.coldirection[2]:
-                if self.coldirection[3]:
-                    self.coldirection[2] = False
-                    self.onplat = True
-                if self.coldirection[2]:
-                    self.speedy = 0
-                    self.onplat = False
-                    self.rect.y += 5
-                if self.onplat:
-                    self.speedy = 0
+        if (self.coldirection[1] and self.reflected) or (self.coldirection[0] and not self.reflected):
+            self.reflected = not self.reflected
+            self.totalMovement = 0
 
-            if (self.coldirection[1] and keystate[pygame.K_a]) or (self.coldirection[0] and keystate[pygame.K_d]):
-                self.speedx = 0
+        if not self.coldirection[0] and not self.coldirection[1] and not self.coldirection[1] and not \
+        self.coldirection[1]:
+            self.onplat = False
 
-            if not self.coldirection[0] and not self.coldirection[1] and not self.coldirection[1] and not \
-            self.coldirection[1]:
-                self.onplat = False
-
-            self.rect.x += self.speedx
-            self.rect.y += self.speedy
+        self.rect.x += self.speedx
+        self.rect.y += self.speedy
