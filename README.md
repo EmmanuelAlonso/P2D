@@ -108,3 +108,9 @@ Level(Dodge):
   Mob(325, 500, asteroid.png, Behaviour(150,0,3.0, CONTINUOUS, False))
   Goal(710, 140, coin.png, Behaviour(0,0,0.0, DEFAULT, False))
 end
+
+
+HOW TO RUN:
+
+To run your code, write it in a text file and when you run the parse python script, write the name of the file(if in same directory)
+or the path to the file.
