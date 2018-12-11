@@ -3,40 +3,9 @@
 This project is a programming language called P2D, which stands for platform 2D and is used to create simple 2D video games.
 
 
-Reserved: Level, Player, Mob, Object, Behaviour, Goal
+# Introduction
 
-Tokens: TYPENAME, LPAREN, RPAREN, COMMA, INT, FLOAT, DELIMITER, ID, DOUBLEPOINT, WHITESPACE, BOOL
-
-
-
-Grammar Rules:
-P2D : levellist
-
-levellist : level levellist 
-                | level
-
-level : LEVEL LPAREN listattr RPAREN DOUBLEPOINT typelist DELIMITER
-
-typelist : typedeclar typelist 
-                | typedeclar
- 
-typedeclar : TYPENAME LPAREN empty RPAREN DOUBLEPOINT typelist DELIMITER
-                | TYPENAME LPAREN empty RPAREN
-                | TYPENAME LPAREN listattr RPAREN DOUBLEPOINT typelist DELIMITER
-                | TYPENAME LPAREN listattr RPAREN
-                
-simpletypedeclar : TYPENAME LPAREN listattr RPAREN
-
-listattr : attr COMMA listattr 
-                | attr
- 
-attr : simpletypedeclar 
-                | BOOL 
-                | FLOAT 
-                | INT 
-                | ID
-                
-                
+In many introductory programming courses, students are not immediately handed a compiler to learn the basics of programming. Instead, they are handed tools like Carnegie-Mellon’s Alice, drag and drop programming tools that can illustrate programming principles through an interactive medium. Alice does this by using programming statements such as for loops, else-if, do-whiles, etc. to animate small videos. GameSalad is another such program, this time aimed at teaching videogame programming to newcomers. We set out to develop a language to not only help create 2D games, but one that would serve as a transition for programming students that learned programming using these programs instead of compilers, illustrating the power of compilers and the degree of control one can have in programming outside of a pre-determined environment.
                 
 # Guide:
 
