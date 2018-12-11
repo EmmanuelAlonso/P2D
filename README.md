@@ -38,7 +38,7 @@ attr : simpletypedeclar
                 
                 
                 
-Guide:
+# Guide:
 
 The language consists of declaring levels, and within those levels you declare all of the game objects that will be displayed in the level.
 To finish declaring the level with all its objects, type "end" which is the delimiter.
@@ -72,45 +72,45 @@ The attributes for each object are:
 
 
 
-Example Code:
+# Example Code:
 
-Level(Classic):
-  Player(60 , 525,face.png, Behaviour(5,5,5.0,DEFAULT, True))
-  Object(0, 600, floor.png, Behaviour(0,0,0.0, DEFAULT, False))
-  Object(420, 600, wall.png, Behaviour(0,0,0.0, DEFAULT, False))
-  Object(200, 300, redplat.png, Behaviour(0,0,0.0, DEFAULT, False))
-  Mob(200, 275, enemy.png, Behaviour(150,1,2.0, CONTINUOUS, True))
-  Object(45, 80, purplat.png, Behaviour(0,120,2.0, LOOP, False))
-  Object(200, 120, longplat.png, Behaviour(0,0,0.0, DEFAULT, False))
-  Object(420, 145, longplat.png, Behaviour(0,0,0.0, DEFAULT, False))
-  Object(755, 600, grplat.png, Behaviour(0,0,0.0, DEFAULT, False))
-  Object(495, 400, wall.png, Behaviour(0,0,0.0, DEFAULT, False))
-  Object(1000, 510, floor.png, Behaviour(0,0,0.0, DEFAULT, False))
-  Mob(615, 435, enemy.png, Behaviour(150,0,2.0, LOOP, False))
-  Object(590, 600, longplat.png, Behaviour(0,0,0.0, DEFAULT, False))
-  Goal(750, 575, coin.png, Behaviour(0,0,0.0, DEFAULT, False))
-end
-Level(Dodge):
-  Player(60 , 525,ufo.png, Behaviour(5,5,8.0,DEFAULT, False))
-  Object(400, 600, floor.png, Behaviour(0,0,0.0, DEFAULT, False))
-  Object(400, 75, floor.png, Behaviour(0,0,0.0, DEFAULT, False))
-  Object(0, 525, wall.png, Behaviour(0,0,0.0, DEFAULT, False))
-  Object(0, 325, wall.png, Behaviour(0,0,0.0, DEFAULT, False))
-  Mob(400, 150, asteroid.png, Behaviour(0,400,3.0, LOOP, False))
-  Object(0, 125, wall.png, Behaviour(0,0,0.0, DEFAULT, False))
-  Object(800, 525, wall.png, Behaviour(0,0,0.0, DEFAULT, False))
-  Object(800, 325, wall.png, Behaviour(0,0,0.0, DEFAULT, False))
-  Object(800, 125, wall.png, Behaviour(0,0,0.0, DEFAULT, False))
-  Mob(215, 420, asteroid.png, Behaviour(150,0,8.0, CONTINUOUS, False))
-  Mob(515, 125, asteroid.png, Behaviour(150,0,5.0, CONTINUOUS, False))
-  Mob(415, 225, asteroid.png, Behaviour(150,0,10.0, CONTINUOUS, False))
-  Mob(615, 325, asteroid.png, Behaviour(150,0,5.0, CONTINUOUS, False))
-  Mob(325, 500, asteroid.png, Behaviour(150,0,3.0, CONTINUOUS, False))
-  Goal(710, 140, coin.png, Behaviour(0,0,0.0, DEFAULT, False))
-end
+Level(Classic):  
+  Player(60 , 525,face.png, Behaviour(5,5,5.0,DEFAULT, True))  
+  Object(0, 600, floor.png, Behaviour(0,0,0.0, DEFAULT, False))  
+  Object(420, 600, wall.png, Behaviour(0,0,0.0, DEFAULT, False))  
+  Object(200, 300, redplat.png, Behaviour(0,0,0.0, DEFAULT, False))  
+  Mob(200, 275, enemy.png, Behaviour(150,1,2.0, CONTINUOUS, True))  
+  Object(45, 80, purplat.png, Behaviour(0,120,2.0, LOOP, False))  
+  Object(200, 120, longplat.png, Behaviour(0,0,0.0, DEFAULT, False))  
+  Object(420, 145, longplat.png, Behaviour(0,0,0.0, DEFAULT, False))  
+  Object(755, 600, grplat.png, Behaviour(0,0,0.0, DEFAULT, False))  
+  Object(495, 400, wall.png, Behaviour(0,0,0.0, DEFAULT, False))  
+  Object(1000, 510, floor.png, Behaviour(0,0,0.0, DEFAULT, False))  
+  Mob(615, 435, enemy.png, Behaviour(150,0,2.0, LOOP, False))  
+  Object(590, 600, longplat.png, Behaviour(0,0,0.0, DEFAULT, False))  
+  Goal(750, 575, coin.png, Behaviour(0,0,0.0, DEFAULT, False))  
+end  
+Level(Dodge):  
+  Player(60 , 525,ufo.png, Behaviour(5,5,8.0,DEFAULT, False))  
+  Object(400, 600, floor.png, Behaviour(0,0,0.0, DEFAULT, False))  
+  Object(400, 75, floor.png, Behaviour(0,0,0.0, DEFAULT, False))  
+  Object(0, 525, wall.png, Behaviour(0,0,0.0, DEFAULT, False))  
+  Object(0, 325, wall.png, Behaviour(0,0,0.0, DEFAULT, False))  
+  Mob(400, 150, asteroid.png, Behaviour(0,400,3.0, LOOP, False))  
+  Object(0, 125, wall.png, Behaviour(0,0,0.0, DEFAULT, False))  
+  Object(800, 525, wall.png, Behaviour(0,0,0.0, DEFAULT, False))  
+  Object(800, 325, wall.png, Behaviour(0,0,0.0, DEFAULT, False))  
+  Object(800, 125, wall.png, Behaviour(0,0,0.0, DEFAULT, False))  
+  Mob(215, 420, asteroid.png, Behaviour(150,0,8.0, CONTINUOUS, False))  
+  Mob(515, 125, asteroid.png, Behaviour(150,0,5.0, CONTINUOUS, False))  
+  Mob(415, 225, asteroid.png, Behaviour(150,0,10.0, CONTINUOUS, False))  
+  Mob(615, 325, asteroid.png, Behaviour(150,0,5.0, CONTINUOUS, False))  
+  Mob(325, 500, asteroid.png, Behaviour(150,0,3.0, CONTINUOUS, False))  
+  Goal(710, 140, coin.png, Behaviour(0,0,0.0, DEFAULT, False))  
+end  
 
 
-HOW TO RUN:
+# How To Run:
 
 To run your code, write it in a text file and when you run the parse.py python script, write the name of the file(if in same directory)
 or the path to the file.
