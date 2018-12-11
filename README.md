@@ -41,7 +41,7 @@ The attributes for each object are:
 
 # Video Turorial
 
-<iframe width="560" height="315" src="https://youtu.be/q1f2Qn3jC9E" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://youtube.com/embed/q1f2Qn3jC9E" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
 # Example Code:
 
