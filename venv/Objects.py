@@ -6,7 +6,7 @@ class Object(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.x = x
         self.y = y
-        self.speedx = 0
+        self.speedx = 1
         self.speedy = 0
         self.dynamic = dynamic
         self.image_link = image
